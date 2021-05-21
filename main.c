@@ -7,7 +7,7 @@ int main()
 {
     Country *CountryHead = NULL;
     
-    char country[64] = "Portugal", continent[16] = "Euro", country_code[3] = "POR";
+    char country[64] = "Portugal", continent[16] = "Euro", country_code[4] = "POR";
     unsigned long int population = 10000000;
     char n_week[8] = "2020-10";
     int week_cases = 10, week_cases_ratio = 0,  total_cases = 12;
