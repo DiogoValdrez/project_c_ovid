@@ -13,6 +13,7 @@ typedef struct Week//corrigir nomes
     int week_deaths;
     int week_deaths_ratio;
     int total_deaths;
+    int indicator;
     struct Week *next_week;
 }Week;
 
@@ -27,15 +28,17 @@ typedef struct Country
     struct Country *next_country;
 }Country;
 
-
-//Week *addWeek(Week *week_head, char n_week_arg[8], char indicator[8],  int week_numbers, int week_ratio, int total_numbers);
+Country *create_node(Country *CountryHead, char country[64], char country_code[4], char continent[16], unsigned long int population, char n_week[8],int week_values,int week_ratio,int total, char indicator[7]);
+Week *create_week(Country *Country,char n_week[8],int week_values,int week_ratio,int total, char indicator[7]);
 Country *create_country(Country *CountryHead, char country[64], char country_code[4], char continent[16], unsigned long int population);
 Country *add_CEL(Country *CountryHead, Country *NewCountry);
+Week *add_WEL(Country *Country, Week *NewWeek);
 //Country *switch_countries(Country *Country1, Country *Country2);//returns list head
 Country *look_for_country(char country[64], Country *CountryHead);
+Week *look_for_week(Country *Country, char n_week[8]);
 
-void print_countries(Country *CountryHead);
-void free_countries(Country *CountryHead);
+void print_nodes(Country *CountryHead);
+void free_nodes(Country *CountryHead);
 
 
 #endif

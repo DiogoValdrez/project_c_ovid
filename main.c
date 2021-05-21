@@ -6,9 +6,13 @@
 int main()
 {
     Country *CountryHead = NULL;
-    Country *NewCountry;
+    
     char country[64], continent[16], country_code[3];
     unsigned long int population;
+
+    char n_week[8] = "2020-13";
+    int week_cases = 10, week_cases_ratio = 0,  total_cases = 12;//pode vaer aqui uma verificação se é maior que os casos da semana
+    int week_deaths = 11, week_deaths_ratio = 1, total_deaths = 13;
 
     printf("Insere o primeiro pais:\n");
     scanf("%s", country);
@@ -16,16 +20,13 @@ int main()
     scanf("%s", continent);
     scanf("%lu", &population);
 
-    //ja verifica se pais existe----agora é, (criar semana): procurar se pais ja existe, se sim, procurar se semana já existe, se não, adicionar nova semana
-    //creat_coutry fica dentro de creat_week
-    //free das semanas
+    //atenção ao tamanho das strings
+    //Testar
+    //atenção que o valgrind queixa se que estamos a ir a valores não inicializados a seguir a cada print dos nodes
+
+    CountryHead = create_node(CountryHead, country, country_code, continent, population, n_week, week_cases, week_cases_ratio, total_cases, "cases");
+    CountryHead = create_node(CountryHead, country, country_code, continent, population, n_week, week_deaths, week_deaths_ratio, total_deaths, "deaths");
     //printf("%p\n", CountryHead);
-    NewCountry = create_country(CountryHead, country, country_code, continent, population);
-    CountryHead = add_CEL(CountryHead, NewCountry);
-
-    NewCountry = create_country(CountryHead, country, country_code, continent, population);
-    CountryHead = add_CEL(CountryHead, NewCountry);
-
     /*printf("Insere o segundo pais:\n");
 
     scanf("%s", country);
@@ -47,7 +48,7 @@ int main()
     CountryHead = add_CEL(CountryHead, NewCountry);
     //CountryHead = switch_countries(NewCountry, NewCountry3);*/
 
-    print_countries(CountryHead);
-    free_countries(CountryHead);
+    print_nodes(CountryHead);
+    free_nodes(CountryHead);
     return 0;
 }
