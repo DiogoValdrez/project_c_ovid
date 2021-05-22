@@ -1,10 +1,112 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <getopt.h>
+#include <ctype.h>
 #include "make_list.h"
 
-int main()
+#define LISTA_OPCOES "-:L:S:D:P:i:o:"
+
+int main(int argc, char *argv[])
 {
+    int helper;
+	int opt;
+    //Variables to check whether or not the options were inputted
+    int opt_L = 0, opt_S = 0, opt_D = 0, opt_P = 0, opt_i = 0, opt_o = 0;
+    char read_data[24], read_continent[16];
+    char sort_type[8], sort_week[8];
+    char select_data[12];
+    char restrict_data_type[8], restrict_data_week[8], restrict_data_interval_week[8];
+    char *file_read;
+    char *file_write;
+
+	opterr = 0;
+	
+	while((opt = getopt(argc, argv, LISTA_OPCOES)) != -1)  
+	{
+	  switch (opt)
+      {
+        case 'L': 
+            optind--;
+            helper = 0;
+            for(;optind < argc && *argv[optind] != '-'; optind++)
+            {
+                if (helper == 0)
+                {
+                    strcpy(read_data, argv[optind]);
+                }
+                if (helper == 1)
+                {
+                    strcpy(read_continent, argv[optind]);
+                }
+                helper++;
+            }
+            opt_L = 1;
+            break;
+        case 'S':  
+            optind--;
+            helper = 0;
+            for(;optind < argc && *argv[optind] != '-'; optind++)
+            {
+                if (helper == 0)
+                {
+                    strcpy(sort_type, argv[optind]);
+                }
+                if (helper == 1)
+                {
+                    strcpy(sort_week, argv[optind]);
+                }
+                helper++;
+            }
+            opt_S = 1;
+            break;
+        case 'D':
+            strcpy(select_data, argv[optind-1]);
+            opt_D = 1;
+            break;
+        case 'P': // opção com argumentos obrigatórios
+            optind--;
+            helper = 0;
+            for(;optind < argc && *argv[optind] != '-'; optind++)
+            {
+                if (helper == 0)
+                {
+                    strcpy(restrict_data_type, argv[optind]);
+                }
+                if (helper == 1)
+                {
+                    strcpy(restrict_data_week, argv[optind]);
+                }
+                if (helper == 2)
+                {
+                    strcpy(restrict_data_interval_week, argv[optind]);
+                }
+                helper++;
+            }
+            opt_P = 1;
+            break;
+        case 'i': 
+            file_read = optarg;
+            opt_i = 1;
+            break;
+        case 'o':  
+            file_write = optarg;
+            opt_o = 1;
+            break;
+        case 1:
+            printf("Argumento sem opção %s\n",optarg);
+            break;
+        case '?':
+            if (isprint (optopt))
+            fprintf (stderr, "> opcao `-%c' desconhecida.\n", optopt);
+            return 1;
+      }
+    }
+    
+
+
+
+
     Country *CountryHead = NULL;
     
     char country[64] = "Portugal", continent[16] = "Euro", country_code[4] = "POR";
@@ -28,7 +130,7 @@ int main()
     //atenção ao tamanho das strings
     //atenção que o valgrind queixa se que estamos a ir a valores não inicializados a seguir a cada print dos nodes
 
-    CountryHead = create_node(CountryHead, country, country_code, continent, population, n_week, week_cases, week_cases_ratio, total_cases, "cases");
+    /*CountryHead = create_node(CountryHead, country, country_code, continent, population, n_week, week_cases, week_cases_ratio, total_cases, "cases");
     CountryHead = create_node(CountryHead, country, country_code, continent, population, n_week, week_deaths, week_deaths_ratio, total_deaths, "deaths");
 
     strcpy(n_week, "2020-11");
@@ -53,6 +155,6 @@ int main()
     //printf("%p\n", CountryHead);
 
     print_nodes(CountryHead);
-    free_nodes(CountryHead);
+    free_nodes(CountryHead);*/
     return 0;
 }
