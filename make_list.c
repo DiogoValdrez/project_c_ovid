@@ -1,49 +1,55 @@
 #include "make_list.h"
 
 //função que adiciona node, se ja existir adiciona apenas semana; retorna o countryhead(pode ser trocado o retorno)
-Country *create_node(Country *CountryHead, char country[64], char country_code[4], char continent[16], unsigned long int population, char n_week[8],int week_values,int week_ratio,int total, char indicator[7])
+Country *create_node(Country *CountryHead, char country[64], char country_code[4], char continent[16], unsigned long int population, char n_week[8],int week_values,int week_ratio,int total, char cindicator[7])
 {
-    Week *NewWeek;
-    Country *Country;
-
+    Week *NewWeek = NULL;
+    Country *Country = NULL;
     Country = create_country(CountryHead, country, country_code, continent, population);
-    NewWeek = create_week(Country, n_week, week_values, week_ratio, total, indicator);
+    NewWeek = create_week(Country, n_week, week_values, week_ratio, total, cindicator);
     Country->week_head = add_WEL(Country, NewWeek);
     CountryHead = add_CEL(CountryHead, Country);
     return CountryHead;
 }
 
-Week *create_week(Country *Country,char n_week[8],int week_values,int week_ratio,int total,char indicator[7]){
-    Week *NewWeek;
+Week *create_week(Country *Country,char n_week[8],int week_values,int week_ratio,int total,char cindicator[7]){
+    Week *NewWeek = NULL;
     int ind_aux;
 
-    if(strcmp("cases", indicator)==0){
+    if(strcmp("cases", cindicator)==0){
         ind_aux = 1;
-    }else if(strcmp("deaths", indicator)==0){
+    }else if(strcmp("deaths", cindicator)==0){
         ind_aux = 2;
     }else{
         printf("Erro: Indicador com valor inválido");
         exit(0);
     }
-    if((NewWeek = look_for_week(Country, n_week)) != NULL){
+    NewWeek = look_for_week(Country, n_week);
+    if(NewWeek != NULL){
         if(NewWeek->indicator == ind_aux || NewWeek->indicator == 3){
             printf("Erro: A semana pedida tem dados repetidos");
             exit(0);
+        }/*else if(NewWeek->indicator != 1 && NewWeek->indicator != 2){//provavelmente procar valores para 0
+            NewWeek->week_cases = 0;
+            NewWeek->week_cases_ratio = 0;
+            NewWeek->total_cases = 0;
+            NewWeek->week_deaths = 0;
+            NewWeek->week_deaths_ratio = 0;
+            NewWeek->total_deaths  = 0;
+        }*/
+        if(ind_aux == 1){
+            NewWeek->week_cases = week_values;
+            NewWeek->week_cases_ratio = week_ratio;
+            NewWeek->total_cases = total;
         }else{
-            if(ind_aux == 1){
-                NewWeek->week_cases = week_values;
-                NewWeek->week_cases_ratio = week_ratio;
-                NewWeek->total_cases = total;
-            }else{
-                NewWeek->week_deaths = week_values;
-                NewWeek->week_deaths_ratio = week_ratio;
-                NewWeek->total_deaths  = total;
-            }
-            NewWeek->indicator = NewWeek->indicator + ind_aux;
+            NewWeek->week_deaths = week_values;
+            NewWeek->week_deaths_ratio = week_ratio;
+            NewWeek->total_deaths  = total;
         }
+        NewWeek->indicator = NewWeek->indicator + ind_aux;
         return NewWeek;
     }
-    if((NewWeek = (Week*)malloc(sizeof(Week)))==NULL){
+    if((NewWeek = (Week*)calloc(1, sizeof(Week)))==NULL){
         printf("Erro: Não foi possivel alocar o bloco de memória.[create_week]");
         exit(0);
     }
@@ -64,12 +70,12 @@ Week *create_week(Country *Country,char n_week[8],int week_values,int week_ratio
 //probelam desta função: se criarmos paises mas não os adicionarmos as listas dá problemas
 Country *create_country(Country *CountryHead, char country[64], char country_code[4], char continent[16], unsigned long int population)
 {
-    Country *NewCountry;
+    Country *NewCountry = NULL;
     //Looks for the country name to see if there is already a node with that name
     if((NewCountry = look_for_country(country, CountryHead)) != NULL){
         return NewCountry;
     }
-    if((NewCountry = (Country*)malloc(sizeof(Country)))==NULL){
+    if((NewCountry = (Country*)calloc(1, sizeof(Country)))==NULL){
         printf("Erro: Não foi possivel alocar o bloco de memória.[create_country]");
         exit(0);
     }
@@ -85,7 +91,7 @@ Country *create_country(Country *CountryHead, char country[64], char country_cod
 
 
 Country *add_CEL(Country *CountryHead, Country *NewCountry){
-    Country *Aux;
+    Country *Aux = NULL;
     //verifica se ja existe na lista antes de adicionar
     if(look_for_country(NewCountry->country, CountryHead) != NULL){
         return CountryHead;
@@ -103,7 +109,7 @@ Country *add_CEL(Country *CountryHead, Country *NewCountry){
 }
 
 Week *add_WEL(Country *Country, Week *NewWeek){
-    Week *Aux;
+    Week *Aux = NULL;
     //verifica se ja existe na lista antes de adicionar
     if(look_for_week(Country, NewWeek->n_week) != NULL){
         return Country->week_head;
@@ -121,7 +127,7 @@ Week *add_WEL(Country *Country, Week *NewWeek){
 }
 
 Country *look_for_country(char country[64], Country *CountryHead){
-    Country *Aux;
+    Country *Aux = NULL;
     Country *FoundCountry = NULL;
 
     Aux = CountryHead;
@@ -141,25 +147,25 @@ Country *look_for_country(char country[64], Country *CountryHead){
 
 Week *look_for_week(Country *Country, char n_week[8]){
     Week *FoundWeek = NULL;
-    Week *Aux;
-
-    Aux = Country->week_head;
+    Week *Aux = NULL;
+    Aux = Country->week_head;;
     if(Aux == NULL){
         return FoundWeek;
     }
     do{
+        //Conditional jump or move depends on uninitialised value(s) + segmentation fault!!!!
         if(strcmp(Aux->n_week, n_week) == 0){
             FoundWeek = Aux;
             break;
         }
         Aux = Aux->next_week;
-    }while(Aux != NULL);
+    }while(Aux != NULL);//Conditional jump or move depends on uninitialised value(s)
     return FoundWeek;
 }
 
 void print_nodes(Country *CountryHead){//apagar no fim
-    Country *Aux;
-    Week *AuxW;
+    Country *Aux = NULL;
+    Week *AuxW = NULL;
     for(Aux = CountryHead; Aux != NULL; Aux = Aux->next_country){
         printf("\n%s, %s, %s, %lu, %p\n", Aux->country, Aux->country_code, Aux->continent, Aux->population, Aux->next_country);
         for(AuxW = CountryHead->week_head; AuxW != NULL; AuxW = AuxW->next_week){
@@ -170,8 +176,8 @@ void print_nodes(Country *CountryHead){//apagar no fim
 }
 
 void free_nodes(Country *CountryHead){
-    Country *Aux;
-    Week *AuxW;
+    Country *Aux = NULL;
+    Week *AuxW = NULL;
 
     Aux = CountryHead;
     AuxW = CountryHead->week_head;

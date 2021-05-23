@@ -4,6 +4,7 @@
 #include <getopt.h>
 #include <ctype.h>
 #include "make_list.h"
+#include "file_manager.h"
 
 #define LISTA_OPCOES "-:L:S:D:P:i:o:"
 
@@ -118,8 +119,9 @@ int main(int argc, char *argv[])
 
 
     Country *CountryHead = NULL;
-    
-    char country[64] = "Portugal", continent[16] = "Euro", country_code[4] = "POR";
+    char filename[32];
+    char opLD[16];
+    /*char country[64] = "Portugal", continent[16] = "Euro", country_code[4] = "POR";
     unsigned long int population = 10000000;
     char n_week[8] = "2020-10";
     int week_cases = 10, week_cases_ratio = 0,  total_cases = 12;
@@ -129,7 +131,7 @@ int main(int argc, char *argv[])
     week_cases = 10;
     week_cases_ratio = 0; 
     total_cases = 12;//pode vaer aqui uma verificação se é maior que os casos da semana
-    int week_deaths = 11, week_deaths_ratio = 1, total_deaths = 13;
+    int week_deaths = 11, week_deaths_ratio = 1, total_deaths = 13;*/
 
     /*printf("Insere o primeiro pais:\n");
     scanf("%s", country);
@@ -159,9 +161,10 @@ int main(int argc, char *argv[])
     population = 11000000;
     CountryHead = create_node(CountryHead, country, country_code, continent, population, n_week, week_cases, week_cases_ratio, total_cases, "cases");
     CountryHead = create_node(CountryHead, country, country_code, continent, population, n_week, week_deaths, week_deaths_ratio, total_deaths, "deaths");
-
-
-
+*/
+    /*strcpy(filename, "covid19_w_tf01.csv"); //isto vai ser retirado do getopt
+    strcpy(opLD, "America");
+    CountryHead = getcsv(CountryHead, filename, opLD);
     //printf("%p\n", CountryHead);
 
     print_nodes(CountryHead);
