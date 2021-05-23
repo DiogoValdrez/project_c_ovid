@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
 	int opt;
     //Variables to check whether or not the options were inputted
     int opt_L = 0, opt_S = 0, opt_D = 0, opt_P = 0, opt_i = 0, opt_o = 0;
-    char read_data[24], read_continent[16];
+    char *read_data;
     char sort_type[8], sort_week[8];
     char select_data[12];
     char restrict_data_type[8], restrict_data_week[8], restrict_data_interval_week[8];
@@ -27,19 +27,11 @@ int main(int argc, char *argv[])
 	  switch (opt)
       {
         case 'L': 
-            optind--;
-            helper = 0;
-            for(;optind < argc && *argv[optind] != '-'; optind++)
+            read_data = optarg;
+            if (strcmp(read_data, "all") && strcmp(read_data, "Africa") && strcmp(read_data, "Oceania") && strcmp(read_data, "Europe") && strcmp(read_data, "America") && strcmp(read_data, "Asia"))
             {
-                if (helper == 0)
-                {
-                    strcpy(read_data, argv[optind]);
-                }
-                if (helper == 1)
-                {
-                    strcpy(read_continent, argv[optind]);
-                }
-                helper++;
+                printf("Argumento para opção -L incorreto\n");
+                return EXIT_FAILURE;
             }
             opt_L = 1;
             break;
@@ -58,10 +50,20 @@ int main(int argc, char *argv[])
                 }
                 helper++;
             }
+            if (strcmp(sort_type, "alfa") && strcmp(sort_type, "pop") && strcmp(sort_type, "inf") && strcmp(sort_type, "dea"))
+            {
+                printf("Argumento para opção -S incorreto\n");
+                return EXIT_FAILURE;
+            }
             opt_S = 1;
             break;
         case 'D':
             strcpy(select_data, argv[optind-1]);
+            if (strcmp(select_data, "inf") && strcmp(select_data, "dea") && strcmp(select_data, "racioinf") && strcmp(select_data, "raciodea"))
+            {
+                printf("Argumento para opção -D incorreto\n");
+                return EXIT_FAILURE;
+            }
             opt_D = 1;
             break;
         case 'P': // opção com argumentos obrigatórios
@@ -83,6 +85,11 @@ int main(int argc, char *argv[])
                 }
                 helper++;
             }
+            if (strcmp(restrict_data_type, "min") && strcmp(restrict_data_type, "max") && strcmp(restrict_data_type, "date") && strcmp(restrict_data_type, "dates"))
+            {
+                printf("Argumento para opção -P incorreto\n");
+                return EXIT_FAILURE;
+            }
             opt_P = 1;
             break;
         case 'i': 
@@ -93,17 +100,21 @@ int main(int argc, char *argv[])
             file_write = optarg;
             opt_o = 1;
             break;
-        case 1:
-            printf("Argumento sem opção %s\n",optarg);
-            break;
         case '?':
             if (isprint (optopt))
             fprintf (stderr, "> opcao `-%c' desconhecida.\n", optopt);
-            return 1;
+            return EXIT_FAILURE;
       }
     }
-    
+    printf("Opções S: %s\n%s\n%s\n", restrict_data_type, restrict_data_week, restrict_data_interval_week);
 
+    if (opt_i == 0 || opt_o == 0 || (opt_L == 0 && opt_S == 0 && opt_D == 0 && opt_P == 0 && opt_i == 0 && opt_o == 0))
+    {
+        printf("Opções Obrigatórias:\n\t-i: Opção de Leitura de Dados de Ficheiro\n\t-o: Opção de Escrita de Dados em Ficheiro\n");
+        printf("Opções Não Obrigatórias:\n\t-L: Opção de Leitura de Dados\n\t-S: Opção de Ordenação de Dados\n\t");
+        printf("-D: Opção de Seleção de Dados\n\t-P: Opção de Restrição de Dados\n");
+        return EXIT_FAILURE;
+    }
 
 
 
