@@ -162,7 +162,7 @@ int main(int argc, char *argv[])
     CountryHead = create_node(CountryHead, country, country_code, continent, population, n_week, week_cases, week_cases_ratio, total_cases, "cases");
     CountryHead = create_node(CountryHead, country, country_code, continent, population, n_week, week_deaths, week_deaths_ratio, total_deaths, "deaths");
 */
-    strcpy(filename, "covid19_w_tf01.csv"); //isto vai ser retirado do getopt
+    /*strcpy(filename, "covid19_w_tf01.csv"); //isto vai ser retirado do getopt
     strcpy(opLD, "America");
     CountryHead = getcsv(CountryHead, filename, opLD);
     //printf("%p\n", CountryHead);
