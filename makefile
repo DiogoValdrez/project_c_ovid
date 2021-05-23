@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS= -Wall -std=c11 -O3
+CFLAGS= -Wall -g -std=c11 -O3
 
 PROJECT= covid19
 

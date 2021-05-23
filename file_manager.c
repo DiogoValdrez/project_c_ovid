@@ -12,6 +12,7 @@ Country* getcsv(Country* CountryHead, char filename[32], char opLD[16]){//trocar
     //verificar valores
     //maybe alocação dinamica aqui + alocação dinamica valores variáveis?
     //dar reset as variáveis em todos os ciclos??
+    //check se é uma linha vazia?
 
 
     char n_week[8];
@@ -45,39 +46,39 @@ Country* getcsv(Country* CountryHead, char filename[32], char opLD[16]){//trocar
             {
             case 1:
                 strcpy(country, token);
-                printf("%s,", country);
+                //printf("%s,", country);
                 break;
             case 2:
                 strcpy(country_code, token);
-                printf("%s,", country_code);
+                //printf("%s,", country_code);
                 break;
             case 3:
                 strcpy(continent, token);
-                printf("%s,", continent);
+                //printf("%s,", continent);
                 break;
             case 4:
                 population = atoll(token);
-                printf("%lu,", population);
+                //printf("%lu,", population);
                 break;
             case 5:
                 strcpy(cindicator, token);
-                printf("%s,", cindicator);
+                //printf("%s,", cindicator);
                 break;
             case 6:
                 week_values = atoi(token);
-                printf("%d,", week_values);
+                //printf("%d,", week_values);
                 break;
             case 7:
                 strcpy(n_week, token);
-                printf("%s,", n_week);
+                //printf("%s,", n_week);
                 break;
             case 8:
                 week_ratio = atoi(token);
-                printf("%d,", week_ratio);
+                //printf("%d,", week_ratio);
                 break;
             case 9:
                 total = atoi(token);
-                printf("%d\n", total);
+                //printf("%d\n", total);
                 break;
             }
         }

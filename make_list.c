@@ -24,7 +24,8 @@ Week *create_week(Country *Country,char n_week[8],int week_values,int week_ratio
         printf("Erro: Indicador com valor inválido");
         exit(0);
     }
-    if((NewWeek = look_for_week(Country, n_week)) != NULL){
+    NewWeek = look_for_week(Country, n_week);
+    if(NewWeek != NULL){
         if(NewWeek->indicator == ind_aux || NewWeek->indicator == 3){
             printf("Erro: A semana pedida tem dados repetidos");
             exit(0);
@@ -48,7 +49,7 @@ Week *create_week(Country *Country,char n_week[8],int week_values,int week_ratio
         NewWeek->indicator = NewWeek->indicator + ind_aux;
         return NewWeek;
     }
-    if((NewWeek = (Week*)malloc(sizeof(Week)))==NULL){
+    if((NewWeek = (Week*)calloc(1, sizeof(Week)))==NULL){
         printf("Erro: Não foi possivel alocar o bloco de memória.[create_week]");
         exit(0);
     }
@@ -74,7 +75,7 @@ Country *create_country(Country *CountryHead, char country[64], char country_cod
     if((NewCountry = look_for_country(country, CountryHead)) != NULL){
         return NewCountry;
     }
-    if((NewCountry = (Country*)malloc(sizeof(Country)))==NULL){
+    if((NewCountry = (Country*)calloc(1, sizeof(Country)))==NULL){
         printf("Erro: Não foi possivel alocar o bloco de memória.[create_country]");
         exit(0);
     }
@@ -147,18 +148,18 @@ Country *look_for_country(char country[64], Country *CountryHead){
 Week *look_for_week(Country *Country, char n_week[8]){
     Week *FoundWeek = NULL;
     Week *Aux = NULL;
-
-    Aux = Country->week_head;
+    Aux = Country->week_head;;
     if(Aux == NULL){
         return FoundWeek;
     }
     do{
+        //Conditional jump or move depends on uninitialised value(s) + segmentation fault!!!!
         if(strcmp(Aux->n_week, n_week) == 0){
             FoundWeek = Aux;
             break;
         }
         Aux = Aux->next_week;
-    }while(Aux != NULL);
+    }while(Aux != NULL);//Conditional jump or move depends on uninitialised value(s)
     return FoundWeek;
 }
 
