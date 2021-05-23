@@ -106,7 +106,6 @@ int main(int argc, char *argv[])
             return EXIT_FAILURE;
       }
     }
-    printf("Opções S: %s\n%s\n%s\n", restrict_data_type, restrict_data_week, restrict_data_interval_week);
 
     if (opt_i == 0 || opt_o == 0 || (opt_L == 0 && opt_S == 0 && opt_D == 0 && opt_P == 0 && opt_i == 0 && opt_o == 0))
     {
