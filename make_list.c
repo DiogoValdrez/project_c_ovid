@@ -1,7 +1,7 @@
 #include "make_list.h"
 
 //função que adiciona node, se ja existir adiciona apenas semana; retorna o countryhead(pode ser trocado o retorno)
-Country *create_node(Country *CountryHead, char country[64], char country_code[4], char continent[16], unsigned long int population, char n_week[8],int week_values,int week_ratio,int total, char cindicator[7])
+Country *create_node(Country *CountryHead, char country[64], char country_code[4], char continent[16], unsigned long int population, char n_week[8],int week_values,float week_ratio,int total, char cindicator[7])
 {
     Week *NewWeek = NULL;
     Country *Country = NULL;
@@ -12,7 +12,7 @@ Country *create_node(Country *CountryHead, char country[64], char country_code[4
     return CountryHead;
 }
 
-Week *create_week(Country *Country,char n_week[8],int week_values,int week_ratio,int total,char cindicator[7]){
+Week *create_week(Country *Country,char n_week[8],int week_values,float week_ratio,int total,char cindicator[7]){
     Week *NewWeek = NULL;
     int ind_aux;
 
@@ -29,14 +29,7 @@ Week *create_week(Country *Country,char n_week[8],int week_values,int week_ratio
         if(NewWeek->indicator == ind_aux || NewWeek->indicator == 3){
             printf("Erro: A semana pedida tem dados repetidos");
             exit(0);
-        }/*else if(NewWeek->indicator != 1 && NewWeek->indicator != 2){//provavelmente procar valores para 0
-            NewWeek->week_cases = 0;
-            NewWeek->week_cases_ratio = 0;
-            NewWeek->total_cases = 0;
-            NewWeek->week_deaths = 0;
-            NewWeek->week_deaths_ratio = 0;
-            NewWeek->total_deaths  = 0;
-        }*/
+        }
         if(ind_aux == 1){
             NewWeek->week_cases = week_values;
             NewWeek->week_cases_ratio = week_ratio;
@@ -168,8 +161,8 @@ void print_nodes(Country *CountryHead){//apagar no fim
     Week *AuxW = NULL;
     for(Aux = CountryHead; Aux != NULL; Aux = Aux->next_country){
         printf("\n%s, %s, %s, %lu, %p\n", Aux->country, Aux->country_code, Aux->continent, Aux->population, Aux->next_country);
-        for(AuxW = CountryHead->week_head; AuxW != NULL; AuxW = AuxW->next_week){
-            printf("\t%s, %d, %d, %d, %d, %d, %d, %d, %p\n", AuxW->n_week, AuxW->week_cases, AuxW->week_cases_ratio, AuxW->total_cases, AuxW->week_deaths, AuxW->week_deaths_ratio, AuxW->total_deaths, AuxW->indicator, AuxW->next_week);
+        for(AuxW = Aux->week_head; AuxW != NULL; AuxW = AuxW->next_week){
+            printf("\t%s, %d, %f, %d, %d, %g, %d, %d, %p\n", AuxW->n_week, AuxW->week_cases, AuxW->week_cases_ratio, AuxW->total_cases, AuxW->week_deaths, AuxW->week_deaths_ratio, AuxW->total_deaths, AuxW->indicator, AuxW->next_week);
         }
     }
     return;
