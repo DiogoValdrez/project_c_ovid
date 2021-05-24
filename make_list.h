@@ -8,10 +8,10 @@ typedef struct Week//corrigir nomes
 {
     char n_week[8];
     int week_cases;
-    int week_cases_ratio;
+    float week_cases_ratio;
     int total_cases;
     int week_deaths;
-    int week_deaths_ratio;
+    float week_deaths_ratio;
     int total_deaths;
     int indicator;
     struct Week *next_week;
@@ -28,8 +28,8 @@ typedef struct Country
     struct Country *next_country;
 }Country;
 
-Country *create_node(Country *CountryHead, char country[64], char country_code[4], char continent[16], unsigned long int population, char n_week[8],int week_values,int week_ratio,int total, char cindicator[7]);
-Week *create_week(Country *Country,char n_week[8],int week_values,int week_ratio,int total, char cindicator[7]);
+Country *create_node(Country *CountryHead, char country[64], char country_code[4], char continent[16], unsigned long int population, char n_week[8],int week_values,float week_ratio,int total, char cindicator[7]);
+Week *create_week(Country *Country,char n_week[8],int week_values,float week_ratio,int total, char cindicator[7]);
 Country *create_country(Country *CountryHead, char country[64], char country_code[4], char continent[16], unsigned long int population);
 Country *add_CEL(Country *CountryHead, Country *NewCountry);
 Week *add_WEL(Country *Country, Week *NewWeek);

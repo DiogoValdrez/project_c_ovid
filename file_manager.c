@@ -17,7 +17,7 @@ Country* getcsv(Country* CountryHead, char filename[32], char opLD[16]){//trocar
 
     char n_week[8];
     int week_values = 0;//ter de tirar 0
-    int week_ratio = 0;//ter de tirar 0
+    float week_ratio = 0;//ter de tirar 0
     int total = 0;//ter de tirar 0
     char country[64];
     char country_code[4];
@@ -73,7 +73,7 @@ Country* getcsv(Country* CountryHead, char filename[32], char opLD[16]){//trocar
                 //printf("%s,", n_week);
                 break;
             case 8:
-                week_ratio = atoi(token);
+                week_ratio = atof(token);
                 //printf("%d,", week_ratio);
                 break;
             case 9:
@@ -94,4 +94,43 @@ Country* getcsv(Country* CountryHead, char filename[32], char opLD[16]){//trocar
     }
     fclose(fp);
     return CountryHead;
+}
+
+//exportar tudo o que esta na lista, pela ordem que esta na lista
+//por no .h
+//ver caso lista vazia
+//ver comodistinguir se é csv ou dat ou nenhum(recortar a string e ver o fim)
+
+//escrever indice
+//dividir por casos e mortes
+void expcsv(char filename[32], Country *CountryHead){
+    Country *Aux = NULL;
+    Week *AuxW = NULL;
+    FILE *fp = NULL;
+    fp = fopen(filename, "w");
+    if(fp == NULL || CountryHead == NULL){//maybe retirar countryhead
+        printf("Erro: exportação de fcheiro inválida");
+        exit(0);
+    }
+    fprintf(fp, "country,country_code,continent,population,indicator,weekly_count,year_week,rate_14_day,cumulative_count\n");
+    for(Aux = CountryHead; Aux != NULL; Aux = Aux->next_country){
+        //avisar po para mudar o valor do indicador quando houver seleções
+        //libertar memoria quando erro
+        //corrigir rints de erro
+
+        //verificar se é preciso por o output como o stor(ou pelo menos por para testar)
+        for(AuxW = Aux->week_head; AuxW != NULL; AuxW = AuxW->next_week){
+            if(AuxW->indicator != 2){
+                fprintf(fp,"%s,%s,%s,%lu,%s,%d,%s,%g,%d\n", Aux->country, Aux->country_code, Aux->continent, Aux->population, "cases", AuxW->week_cases, AuxW->n_week, AuxW->week_cases_ratio, AuxW->total_cases);
+            }
+        }
+        for(AuxW = Aux->week_head; AuxW != NULL; AuxW = AuxW->next_week){
+            if(AuxW->indicator != 1){
+                fprintf(fp,"%s,%s,%s,%lu,%s,%d,%s,%g,%d\n", Aux->country, Aux->country_code, Aux->continent, Aux->population, "deaths", AuxW->week_deaths, AuxW->n_week, AuxW->week_deaths_ratio, AuxW->total_deaths);
+            }//colocar %f para testar e %g para commits
+        }               
+        
+    }
+    fclose(fp);
+    return;
 }
