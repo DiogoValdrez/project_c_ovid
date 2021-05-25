@@ -160,9 +160,29 @@ int main(int argc, char *argv[])
     CountryHead = create_node(CountryHead, country, country_code, continent, population, n_week, week_cases, week_cases_ratio, total_cases, "cases");
     CountryHead = create_node(CountryHead, country, country_code, continent, population, n_week, week_deaths, week_deaths_ratio, total_deaths, "deaths");
 */
-    CountryHead = getdat(CountryHead, file_read, read_data);
-    print_nodes(CountryHead);
-    expcsv(file_write, CountryHead);
+    char *last4i = &file_read[strlen(file_read)-4];
+    char *last4o = &file_write[strlen(file_write)-4];
+    if(strncmp(last4i, ".csv", -4) == 0){
+        printf("csv");//tirar
+        CountryHead = getcsv(CountryHead, file_read, read_data);
+    }else if(strncmp(last4i, ".dat", -4) == 0){
+        printf("dat");
+        CountryHead = getdat(CountryHead, file_read, read_data);
+    }else{
+        printf("ERRO ao ler o ficheiro, não é nem .dat nem .csv\n");
+        exit(0);
+    }
+    if(strncmp(last4o, ".csv", -4) == 0){
+        printf("csv");
+        expcsv(file_write, CountryHead);
+    }else if(strncmp(last4o, ".dat", -4) == 0){
+        printf("dat");
+        expdat(file_write, CountryHead);
+    }else{
+        printf("ERRO ao exportar o ficheiro, não é nem .dat nem .csv\n");
+        exit(0);
+    }
+    //print_nodes(CountryHead);
     free_nodes(CountryHead);
     return 0;
 }
