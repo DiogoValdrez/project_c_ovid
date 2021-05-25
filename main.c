@@ -5,12 +5,13 @@
 #include <ctype.h>
 #include "make_list.h"
 #include "file_manager.h"
+#include "sort.h"
 
 #define LISTA_OPCOES "-:L:S:D:P:i:o:"
 
 int main(int argc, char *argv[])
 {
-    int helper;
+    /*int helper;
 	int opt;
     //Variables to check whether or not the options were inputted
     int opt_L = 0, opt_S = 0, opt_D = 0, opt_P = 0, opt_i = 0, opt_o = 0;
@@ -115,7 +116,7 @@ int main(int argc, char *argv[])
         printf("-D: Opção de Seleção de Dados\n\t-P: Opção de Restrição de Dados\n");
         return EXIT_FAILURE;
     }
-
+*/
 
 
     Country *CountryHead = NULL;
@@ -162,12 +163,14 @@ int main(int argc, char *argv[])
     CountryHead = create_node(CountryHead, country, country_code, continent, population, n_week, week_cases, week_cases_ratio, total_cases, "cases");
     CountryHead = create_node(CountryHead, country, country_code, continent, population, n_week, week_deaths, week_deaths_ratio, total_deaths, "deaths");
 */
-    /*strcpy(filename, "covid19_w_tf01.csv"); //isto vai ser retirado do getopt
-    strcpy(opLD, "America");
+    char sort_type[8] = "dea";
+    char sort_week[8] = "2020-16";
+    strcpy(filename, "covid19_w_tf01.csv"); //isto vai ser retirado do getopt
+    strcpy(opLD, "all");
     CountryHead = getcsv(CountryHead, filename, opLD);
-    //printf("%p\n", CountryHead);
-
+    
+    sort(&CountryHead, sort_type, sort_week);
     print_nodes(CountryHead);
-    free_nodes(CountryHead);*/
+    free_nodes(CountryHead);
     return 0;
 }
