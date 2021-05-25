@@ -5,6 +5,7 @@
 #include <ctype.h>
 #include "make_list.h"
 #include "file_manager.h"
+#include "sort.h"
 
 #define LISTA_OPCOES "-:L:S:D:P:i:o:"
 
@@ -115,7 +116,6 @@ int main(int argc, char *argv[])
         printf("-D: Opção de Seleção de Dados\n\t-P: Opção de Restrição de Dados\n");
         return EXIT_FAILURE;
     }
-
 
 
     Country *CountryHead = NULL;
