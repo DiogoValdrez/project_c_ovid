@@ -9,6 +9,8 @@
 
 Country* getcsv(Country* CountryHead, char filename[32], char opLD[16]);
 void expcsv(char filename[32], Country *CountryHead);
+Country* getdat(Country* CountryHead, char filename[32], char opLD[16]);
+void expdat(char filename[32], Country *CountryHead);
 
 
 #endif

@@ -21,7 +21,7 @@ Week *create_week(Country *Country,char n_week[8],int week_values,float week_rat
     }else if(strcmp("deaths", cindicator)==0){
         ind_aux = 2;
     }else{
-        printf("Erro: Indicador com valor inválido");
+        printf("Erro: Indicador com valor inválido\n");//faltam \n nos erros
         exit(0);
     }
     NewWeek = look_for_week(Country, n_week);
@@ -158,12 +158,12 @@ Week *look_for_week(Country *Country, char n_week[8]){
 
 void print_nodes(Country *CountryHead){//apagar no fim
     Country *Aux = NULL;
-    Week *AuxW = NULL;
+    //Week *AuxW = NULL;
     for(Aux = CountryHead; Aux != NULL; Aux = Aux->next_country){
         printf("\n%s, %s, %s, %lu, %p\n", Aux->country, Aux->country_code, Aux->continent, Aux->population, Aux->next_country);
-        for(AuxW = Aux->week_head; AuxW != NULL; AuxW = AuxW->next_week){
+        /*for(AuxW = Aux->week_head; AuxW != NULL; AuxW = AuxW->next_week){
             printf("\t%s, %d, %f, %d, %d, %g, %d, %d, %p\n", AuxW->n_week, AuxW->week_cases, AuxW->week_cases_ratio, AuxW->total_cases, AuxW->week_deaths, AuxW->week_deaths_ratio, AuxW->total_deaths, AuxW->indicator, AuxW->next_week);
-        }
+        }*/
     }
     return;
 }

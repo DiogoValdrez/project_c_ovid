@@ -108,7 +108,7 @@ void expcsv(char filename[32], Country *CountryHead){
     Week *AuxW = NULL;
     FILE *fp = NULL;
     fp = fopen(filename, "w");
-    if(fp == NULL || CountryHead == NULL){//maybe retirar countryhead
+    if(fp == NULL /*|| CountryHead == NULL*/){//maybe retirar countryhead
         printf("Erro: exportação de fcheiro inválida");
         exit(0);
     }
@@ -116,6 +116,7 @@ void expcsv(char filename[32], Country *CountryHead){
     for(Aux = CountryHead; Aux != NULL; Aux = Aux->next_country){
         //avisar po para mudar o valor do indicador quando houver seleções
         //libertar memoria quando erro
+        //libertar memoria ao fazer as restrições
         //corrigir rints de erro
 
         //verificar se é preciso por o output como o stor(ou pelo menos por para testar)
@@ -134,3 +135,64 @@ void expcsv(char filename[32], Country *CountryHead){
     fclose(fp);
     return;
 }
+//falta verificação se foi recebido um .dat ou .csv(função que faz verificação se é .dat ou .csv)
+//falta verificação se houve mais alguma opção com .dat
+Country* getdat(Country* CountryHead, char filename[32], char opLD[16]){
+    FILE *fp = NULL;
+    Country *NewCountry = NULL;
+    Country *PAux = NULL;
+
+    fp = fopen(filename, "rb");
+    //printf("%zu\n", fread(&Aux, sizeof(Country), 1, fp));
+    //printf("%zu\n",sizeof(Aux));
+    if((NewCountry = (Country*)calloc(1, sizeof(Country)))==NULL){
+            printf("Erro: Não foi possivel alocar o bloco de memória.[getdat]");
+            exit(0);
+        }
+    fread(NewCountry, sizeof(Country), 1, fp);
+    do{
+        if(CountryHead == NULL){
+            CountryHead = NewCountry;
+            PAux = CountryHead;
+            if((NewCountry = (Country*)calloc(1, sizeof(Country)))==NULL){
+                printf("Erro: Não foi possivel alocar o bloco de memória.[getdat]");
+                exit(0);
+            }
+            continue;
+        }
+        //memcpy(NewCountry, &Aux, sizeof(Country));
+        printf("%p||", PAux);
+        printf("%s||", PAux->country);
+        PAux->next_country = NewCountry;
+        printf("%p\n", NewCountry);
+        PAux = NewCountry;
+        if((NewCountry = (Country*)calloc(1, sizeof(Country)))==NULL){
+            printf("Erro: Não foi possivel alocar o bloco de memória.[getdat]");
+            exit(0);
+        }
+    }while(fread(NewCountry, sizeof(Country), 1, fp) == 1);
+    /*
+    fread(number, sizeof(number), 1, fp);
+    if((CountryHead = (Country*)calloc(number, sizeof(Country)))==NULL){
+        printf("Erro: Não foi possivel alocar o bloco de memória.[expdat]");
+        exit(0);
+    }
+    fread(CountryHead, sizeof(Country), number, fp);*/
+    //allocar memoria ou criar pais
+    fclose(fp);
+    return CountryHead;
+}
+
+//save pais+save cada week(talvez antes de cada pais guardar o numero de weeks)
+void expdat(char filename[32], Country *CountryHead){
+    FILE *fp = NULL;
+    Country *Aux = NULL;
+
+    fp = fopen(filename, "wb");
+    for(Aux = CountryHead; Aux != NULL; Aux = Aux->next_country){
+        fwrite(Aux, sizeof(Country), 1, fp);
+        printf("hmmm\n");
+    }  
+    fclose(fp);
+    return;
+} 

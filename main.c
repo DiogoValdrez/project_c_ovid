@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
     char restrict_data_type[8], restrict_data_week[8], restrict_data_interval_week[8];
     char *file_read;
     char *file_write;
-
+    //FALTAM OS DEFAULTS
 	opterr = 0;
 	
 	while((opt = getopt(argc, argv, LISTA_OPCOES)) != -1)  
@@ -160,9 +160,9 @@ int main(int argc, char *argv[])
     CountryHead = create_node(CountryHead, country, country_code, continent, population, n_week, week_cases, week_cases_ratio, total_cases, "cases");
     CountryHead = create_node(CountryHead, country, country_code, continent, population, n_week, week_deaths, week_deaths_ratio, total_deaths, "deaths");
 */
-    CountryHead = getcsv(CountryHead, file_read, read_data);
+    CountryHead = getdat(CountryHead, file_read, read_data);
+    print_nodes(CountryHead);
     expcsv(file_write, CountryHead);
-    //print_nodes(CountryHead);
     free_nodes(CountryHead);
     return 0;
 }
