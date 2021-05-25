@@ -56,6 +56,8 @@ dkms.conf
 *.layout
 *.depend
 *.pdf
+*.csv
+*.dat
 obj
 bin
 launch.json
