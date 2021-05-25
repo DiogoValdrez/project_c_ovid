@@ -170,6 +170,9 @@ int main(int argc, char *argv[])
         printf("ERRO ao ler o ficheiro, não é nem .dat nem .csv\n");
         exit(0);
     }
+
+    sort(&CountryHead, sort_type, sort_week);
+    
     if(strncmp(last4o, ".csv", -4) == 0){
         expcsv(file_write, CountryHead);
     }else if(strncmp(last4o, ".dat", -4) == 0){
