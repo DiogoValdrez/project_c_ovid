@@ -225,4 +225,14 @@ Week *remove_week(Country *Country, Week *WantRemoved){
         BAuxW = AuxW;
     }
     return Country->week_head;
+void remove_country_weeks(Week* Week_head)
+{
+    Week *Save_week = NULL;
+
+    while (Week_head != NULL)
+        {
+            Save_week = Week_head;
+            Week_head = Week_head->next_week;
+            free(Save_week);
+        }
 }

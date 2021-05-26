@@ -43,5 +43,7 @@ Week *remove_week(Country *Country, Week *WantRemoved);
 void print_nodes(Country *CountryHead);
 void free_nodes(Country *CountryHead);
 
+void remove_country_weeks(Week* Week_head);
+
 
 #endif

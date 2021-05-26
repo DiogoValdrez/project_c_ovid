@@ -7,6 +7,7 @@
 #include "file_manager.h"
 #include "sort.h"
 #include "restrict.h"
+#include "select.h"
 
 #define LISTA_OPCOES "-:L:S:D:P:i:o:"
 //remover -g do make
@@ -18,12 +19,12 @@ int main(int argc, char *argv[])
 	int opt;
     //Variables to check whether or not the options were inputted
     int opt_L = 0, opt_S = 0, opt_D = 0, opt_P = 0, opt_i = 0, opt_o = 0;
-    char *read_data;
-    char sort_type[8], sort_week[8];
+    char read_data[24];
+    char sort_type[8], sort_week[8] = "";
     char select_data[12];
     char restrict_data_type[8], restrict_data_week[8], restrict_data_interval_week[8];
-    char *file_read;
-    char *file_write;
+    char file_read[24];
+    char file_write[24];
     //FALTAM OS DEFAULTS
 	opterr = 0;
 	
@@ -32,7 +33,7 @@ int main(int argc, char *argv[])
 	  switch (opt)
       {
         case 'L': 
-            read_data = optarg;
+            strcpy(read_data, optarg);
             if (strcmp(read_data, "all") && strcmp(read_data, "Africa") && strcmp(read_data, "Oceania") && strcmp(read_data, "Europe") && strcmp(read_data, "America") && strcmp(read_data, "Asia"))
             {
                 printf("Argumento para opção -L incorreto\n");
@@ -98,11 +99,11 @@ int main(int argc, char *argv[])
             opt_P = 1;
             break;
         case 'i': 
-            file_read = optarg;
+            strcpy(file_read, optarg);
             opt_i = 1;
             break;
         case 'o':  
-            file_write = optarg;
+            strcpy(file_write, optarg);
             opt_o = 1;
             break;
         case '?':
@@ -174,7 +175,7 @@ int main(int argc, char *argv[])
 
     CountryHead = do_restrict(CountryHead, restrict_data_type, restrict_data_week, restrict_data_interval_week);
     //sort(&CountryHead, sort_type, sort_week);
-    
+    select_d(CountryHead, select_data);
     if(strncmp(last4o, ".csv", -4) == 0){
         expcsv(file_write, CountryHead);
     }else if(strncmp(last4o, ".dat", -4) == 0){
@@ -183,7 +184,8 @@ int main(int argc, char *argv[])
         printf("ERRO ao exportar o ficheiro, não é nem .dat nem .csv\n");
         exit(0);
     }
-    //print_nodes(CountryHead);
+    
+    print_nodes(CountryHead);
     free_nodes(CountryHead);
     return 0;
 }
