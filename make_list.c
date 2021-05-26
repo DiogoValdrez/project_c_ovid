@@ -186,3 +186,43 @@ void free_nodes(Country *CountryHead){
     }
     return;
 }
+
+Country *remove_country(Country *CountryHead, Country *WantRemoved){
+    Country *Aux;
+    Country *BAux = NULL;  
+    for(Aux = CountryHead; Aux != NULL; Aux = Aux->next_country){
+        if(Aux == WantRemoved){
+            if(BAux == NULL){
+                CountryHead = Aux->next_country;
+                Aux->next_country = NULL;
+                free_nodes(Aux);
+                return CountryHead;
+            }
+            BAux->next_country = Aux->next_country;
+            Aux->next_country = NULL;
+            free_nodes(Aux);
+            return CountryHead;
+        }
+        BAux = Aux;
+    }
+    return CountryHead;
+}
+
+Week *remove_week(Country *Country, Week *WantRemoved){
+    Week *AuxW;
+    Week *BAuxW = NULL;
+    for(AuxW = Country->week_head; AuxW != NULL; AuxW = AuxW->next_week){
+        if(AuxW == WantRemoved){
+            if(BAuxW == NULL){
+                Country->week_head = Country->week_head->next_week;
+                free(AuxW);
+                return Country->week_head;
+            }
+            BAuxW->next_week = AuxW->next_week;
+            free(AuxW);
+            return Country->week_head;
+        }
+        BAuxW = AuxW;
+    }
+    return Country->week_head;
+}

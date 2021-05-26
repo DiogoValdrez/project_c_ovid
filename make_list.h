@@ -37,6 +37,9 @@ Week *add_WEL(Country *Country, Week *NewWeek);
 Country *look_for_country(char country[64], Country *CountryHead);
 Week *look_for_week(Country *Country, char n_week[8]);
 
+Country *remove_country(Country *CountryHead, Country *WantRemoved);
+Week *remove_week(Country *Country, Week *WantRemoved);
+
 void print_nodes(Country *CountryHead);
 void free_nodes(Country *CountryHead);
 

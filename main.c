@@ -6,11 +6,14 @@
 #include "make_list.h"
 #include "file_manager.h"
 #include "sort.h"
+#include "restrict.h"
 
 #define LISTA_OPCOES "-:L:S:D:P:i:o:"
-
+//remover -g do make
 int main(int argc, char *argv[])
 {
+
+    Country *CountryHead = NULL;
     int helper;
 	int opt;
     //Variables to check whether or not the options were inputted
@@ -117,8 +120,6 @@ int main(int argc, char *argv[])
         return EXIT_FAILURE;
     }
 
-
-    Country *CountryHead = NULL;
     /*char country[64] = "Portugal", continent[16] = "Euro", country_code[4] = "POR";
     unsigned long int population = 10000000;
     char n_week[8] = "2020-10";
@@ -171,7 +172,8 @@ int main(int argc, char *argv[])
         exit(0);
     }
 
-    sort(&CountryHead, sort_type, sort_week);
+    CountryHead = do_restrict(CountryHead, restrict_data_type, restrict_data_week, restrict_data_interval_week);
+    //sort(&CountryHead, sort_type, sort_week);
     
     if(strncmp(last4o, ".csv", -4) == 0){
         expcsv(file_write, CountryHead);
@@ -181,7 +183,7 @@ int main(int argc, char *argv[])
         printf("ERRO ao exportar o ficheiro, não é nem .dat nem .csv\n");
         exit(0);
     }
-    print_nodes(CountryHead);
+    //print_nodes(CountryHead);
     free_nodes(CountryHead);
     return 0;
 }
