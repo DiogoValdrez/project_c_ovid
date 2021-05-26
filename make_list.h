@@ -40,5 +40,7 @@ Week *look_for_week(Country *Country, char n_week[8]);
 void print_nodes(Country *CountryHead);
 void free_nodes(Country *CountryHead);
 
+void remove_country_weeks(Week* Week_head);
+
 
 #endif

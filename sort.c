@@ -1,6 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include "sort.h"
 int find_cases_week(Country* country, char sort_week[8])
 {
@@ -10,7 +7,6 @@ int find_cases_week(Country* country, char sort_week[8])
     {
         look_week = look_week->next_week;
     }
-    //printf("%s:%s:%d\n", country->country, look_week->n_week, look_week->total_cases );
     return look_week->total_cases;
 }
 
@@ -22,7 +18,6 @@ int find_deaths_week(Country* country, char sort_week[8])
     {
         look_week = look_week->next_week;
     }
-    //printf("%s:%s:%d\n", country->country, look_week->n_week, look_week->total_cases );
     return look_week->total_deaths;
 }
 
@@ -76,9 +71,6 @@ Country *sortposition(Country *head,int n1, int n2){
 // Given a list, change it to be in sorted order (using `sortedInsert()`).
 void sort(Country** head, char sort_type[8], char sort_week[8])
 {
-    // Onde vai ser guardadas as mudanças da head
-    Country* result_head = NULL;   
-    //Para a iteração dos vários países da lista
     Country* some_country = *head;  
     Country* current_country = *head;   
     Country* right_country;
@@ -113,7 +105,6 @@ void sort(Country** head, char sort_type[8], char sort_week[8])
                 
                 swaps = 1;
             }
-
             if (find_cases_week(current_country, sort_week) < find_cases_week(right_country, sort_week) && strcmp(sort_type, "inf") == 0)
             {
                 if (current_country == some_country)
@@ -143,81 +134,4 @@ void sort(Country** head, char sort_type[8], char sort_week[8])
 
     *head = some_country;
 }
-
-// Não da pra usar este algoritmo nos dois ultimos.
-/*
-Country *sort(Country*head, char sort_type[8], char sort_week[8],Week* head_week)
-{
-    Country* left = NULL;
-    Country* current = head;
-    Country* save_right;
-    Country* save_current;
-    Country* save_left;
-    int swaps = 0, helper = 0;
-    if (head == NULL)
-    {
-        printf("hi");
-        return head;
-    }
-    if (head->next_country == NULL)
-    {
-        return head;
-    }
-    Country* right = head->next_country;
-
-
-    do
-    {
-        swaps = 0;
-        left = NULL;
-        current = head;
-        right = head->next_country;
-        save_current = current->next_country;
-        save_right = right->next_country;
-        save_left = current;
-        if (helper == 0)
-        {
-            if (strcmp(current->country, right->country) < 0)
-            {
-                head = right;
-                current->next_country = right->next_country;
-                right->next_country = current;
-                swaps = 1;
-            }
-        }
-        printf("%s:%s,%s\n", left->country, current->country, right->country);
-        helper = 3;
-        left = save_left;
-        current = save_current;
-        right = save_right;
-        printf("->>%s:%s,%s, %s\n", left->country, current->country, right->country, head->country);
-        //return head;
-        while (right->next_country != NULL)
-        {
-            save_current = current->next_country;
-            save_right = right->next_country;
-            save_left = current;
-            if (strcmp(current->country, right->country) < 0)
-            {
-                printf("hi");
-                //printf("%s : %s", current->country, right->country);
-                left->next_country = right;
-                current->next_country = right->next_country;
-                right->next_country = current;
-                swaps = 1;
-            }
-            left = save_left;
-            current = save_current;
-            right = save_right;
-            
-            
-        }
-        swaps ++;
-    }while (swaps !=10 );
-    return head;
-    
-
-
-}
-*/
 
