@@ -5,10 +5,6 @@ void select_d(Country* CountryHead, char select_data[12])
 {
     Country* country = CountryHead;
     Week* Change_week = CountryHead->week_head;
-    //Week* Save_week = (Week*)calloc(1, sizeof(Week));
-
-    
-
 
     while (country != NULL)
     {

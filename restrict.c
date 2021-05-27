@@ -42,8 +42,8 @@ Country *do_restrict(Country *CountryHead, char restrict_data_type[8], char rest
         for(Aux = CountryHead; Aux != NULL; Aux = Aux->next_country){
             for(AuxW = Aux->week_head; AuxW != NULL; AuxW = AuxW2){
                 AuxW2 = AuxW->next_week;
-                if(strcmp(AuxW->n_week, restrict_data_week) != 0){//esta a ir usar a semana errada(1 á frente)
-                    remove_week(Aux, AuxW);//fazer caso de não haver mais weeks!!!
+                if(strcmp(AuxW->n_week, restrict_data_week) != 0){
+                    remove_week(Aux, AuxW);
                 }
             }
         }

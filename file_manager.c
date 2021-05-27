@@ -29,7 +29,7 @@ Country* getcsv(Country* CountryHead, char filename[32], char opLD[16]){//trocar
 
     fp  = fopen(filename, "r");
     if (fp == NULL)  {
-        printf("Erro: o ficheiro %s não consegue ser aberto\n", filename);
+        fprintf(stderr, "-1 Erro de Ficheiro: o ficheiro %s não consegue ser aberto\n", filename);
         exit(0);
     }
     while(fgets(buffer, 1000, fp) != NULL){
@@ -46,47 +46,38 @@ Country* getcsv(Country* CountryHead, char filename[32], char opLD[16]){//trocar
             {
             case 1:
                 strcpy(country, token);
-                //printf("%s,", country);
                 break;
             case 2:
                 strcpy(country_code, token);
-                //printf("%s,", country_code);
                 break;
             case 3:
                 strcpy(continent, token);
-                //printf("%s,", continent);
                 break;
             case 4:
                 population = atoll(token);
-                //printf("%lu,", population);
                 break;
             case 5:
                 strcpy(cindicator, token);
-                //printf("%s,", cindicator);
                 break;
             case 6:
                 week_values = atoi(token);
-                //printf("%d,", week_values);
                 break;
             case 7:
                 strcpy(n_week, token);
-                //printf("%s,", n_week);
                 break;
             case 8:
                 week_ratio = atof(token);
-                //printf("%d,", week_ratio);
                 break;
             case 9:
                 total = atoi(token);
-                //printf("%d\n", total);
                 break;
             }
         }
         if(strcmp(opLD, continent)!=0 && strcmp(opLD, "all")!=0){
-            week_values = 0;//ter de tirar 0
-            week_ratio = 0;//ter de tirar 0
-            total = 0;//ter de tirar 0
-            free(aux2);//temos de reiniciar os valores todos tambem
+            week_values = 0;
+            week_ratio = 0;
+            total = 0;
+            free(aux2);
             continue;
         }
         CountryHead = create_node(CountryHead, country, country_code, continent, population, n_week, week_values, week_ratio, total, cindicator);
@@ -96,32 +87,18 @@ Country* getcsv(Country* CountryHead, char filename[32], char opLD[16]){//trocar
     return CountryHead;
 }
 
-//exportar tudo o que esta na lista, pela ordem que esta na lista
-//por no .h
-//ver caso lista vazia
-//ver comodistinguir se é csv ou dat ou nenhum(recortar a string e ver o fim)
 
-//escrever indice
-//dividir por casos e mortes
 void expcsv(char filename[32], Country *CountryHead){
     Country *Aux = NULL;
     Week *AuxW = NULL;
     FILE *fp = NULL;
     fp = fopen(filename, "w");
-    if(fp == NULL /*|| CountryHead == NULL*/){//maybe retirar countryhead
-        printf("Erro: exportação de fcheiro inválida");
+    if(fp == NULL){
+       fprintf(stderr, "-1 Erro de Ficheiro: não é possivel exportar para o ficheiro %s\n", filename);
         exit(0);
     }
     fprintf(fp, "country,country_code,continent,population,indicator,weekly_count,year_week,rate_14_day,cumulative_count\n");
-    for(Aux = CountryHead; Aux != NULL; Aux = Aux->next_country){
-        //avisar po para mudar o valor do indicador quando houver seleções
-        //libertar memoria quando erro
-        //libertar memoria ao fazer as restrições
-        //corrigir rints de erro
-        /*fprintf(fp,"%s,%s,%s,%lu,%s\n", Aux->country, Aux->country_code, Aux->continent, Aux->population, "cases");
-        //retirar este*/
-        
-        //verificar se é preciso por o output como o stor(ou pelo menos por para testar)
+    for(Aux = CountryHead; Aux != NULL; Aux = Aux->next_country){       
         for(AuxW = Aux->week_head; AuxW != NULL; AuxW = AuxW->next_week){
             if(AuxW->indicator != 2){
                 fprintf(fp,"%s,%s,%s,%lu,%s,%d,%s,%g,%d\n", Aux->country, Aux->country_code, Aux->continent, Aux->population, "cases", AuxW->week_cases, AuxW->n_week, AuxW->week_cases_ratio, AuxW->total_cases);
@@ -150,10 +127,8 @@ Country* getdat(Country* CountryHead, char filename[32], char opLD[16]){
     int aux;
 
     fp = fopen(filename, "rb");
-    //printf("%zu\n", fread(&Aux, sizeof(Country), 1, fp));
-    //printf("%zu\n",sizeof(Aux));
     if((NewCountry = (Country*)calloc(1, sizeof(Country)))==NULL){
-            printf("Erro: Não foi possivel alocar o bloco de memória.[getdat]");
+            fprintf(stderr, "-1 Erro de Alocação: não foi possivel alocar o bloco de memória.[getdat]\n");
             exit(0);
         }
     fread(NewCountry, sizeof(Country), 1, fp);
@@ -165,7 +140,7 @@ Country* getdat(Country* CountryHead, char filename[32], char opLD[16]){
             
             for(aux = number; aux != 0; aux--){
                 if((NewWeek = (Week*)calloc(1, sizeof(Week)))==NULL){
-                        printf("Erro: Não foi possivel alocar o bloco de memória.[getdat]");
+                        fprintf(stderr, "-1 Erro de Alocação: não foi possivel alocar o bloco de memória.[getdat]\n");
                         exit(0);
                 }
                 fread(NewWeek, sizeof(Week), 1, fp);
@@ -180,20 +155,17 @@ Country* getdat(Country* CountryHead, char filename[32], char opLD[16]){
             }
             WeekHead = NULL;
             if((NewCountry = (Country*)calloc(1, sizeof(Country)))==NULL){
-                printf("Erro: Não foi possivel alocar o bloco de memória.[getdat]");
+                fprintf(stderr, "-1 Erro de Alocação: não foi possivel alocar o bloco de memória.[getdat]\n");
                 exit(0);
             }
             continue;
         }
-        //printf("%p||", PAux);
-        //printf("%s||", PAux->country);
         PAux->next_country = NewCountry;
-        //printf("%p\n", NewCountry);
         PAux = NewCountry;
         fread(&number, sizeof(int), 1, fp);
         for(aux = number; aux != 0; aux--){
                 if((NewWeek = (Week*)calloc(1, sizeof(Week)))==NULL){
-                        printf("Erro: Não foi possivel alocar o bloco de memória.[getdat]");
+                        fprintf(stderr, "-1 Erro de Alocação: não foi possivel alocar o bloco de memória.[getdat]\n");
                         exit(0);
                 }
                 fread(NewWeek, sizeof(Week), 1, fp);
@@ -203,13 +175,12 @@ Country* getdat(Country* CountryHead, char filename[32], char opLD[16]){
                     NewCountry->week_head = WeekHead;
                     continue;
                 }
-                AuxW->next_week = NewWeek;//provavelmente problema no ultimo(tenho de por New_ a null no fim)
+                AuxW->next_week = NewWeek;
                 AuxW = NewWeek;
-        }
-        printf("\n");   
+        } 
         WeekHead = NULL;
         if((NewCountry = (Country*)calloc(1, sizeof(Country)))==NULL){
-            printf("Erro: Não foi possivel alocar o bloco de memória.[getdat]");
+            fprintf(stderr, "-1 Erro de Alocação: não foi possivel alocar o bloco de memória.[getdat]\n");
             exit(0);
         }
     }while(fread(NewCountry, sizeof(Country), 1, fp) == 1);
