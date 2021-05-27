@@ -1,6 +1,20 @@
 #include "make_list.h"
 
-//função que adiciona node, se ja existir adiciona apenas semana;
+/** \brief Função geral que cria um nó da lista principal
+ *
+ * \param CountryHead Country* - Apontador para o primeiro país da lista
+ * \param country[64] char - nome do país
+ * \param country_code[4] char - sigla do país
+ * \param continent[16] char - nome do continente
+ * \param population unsigned longint - população do país
+ * \param n_week[8] char - semana e ano
+ * \param week_values int - valor de mortes/casos na semana
+ * \param week_ratio float - racio de mortes/casos na semana
+ * \param total int - numero total de mortes/casos
+ * \param cindicator[7] char - indicador se os dados são relativos ás mortes ou casos
+ * \return Country* - Apontador para o primeiro país da lista
+ *
+ */
 Country *create_node(Country *CountryHead, char country[64], char country_code[4], char continent[16], unsigned long int population, char n_week[8],int week_values,float week_ratio,int total, char cindicator[7])
 {
     Week *NewWeek = NULL;
@@ -12,10 +26,22 @@ Country *create_node(Country *CountryHead, char country[64], char country_code[4
     return CountryHead;
 }
 
+/** \brief Função que cria um nó da lista de semanas
+ *
+ * \param Country Country* - Apontador para o país
+ * \param n_week[8] char - semana e ano
+ * \param week_values int - valor de mortes/casos na semana
+ * \param week_ratio float - racio de mortes/casos na semana
+ * \param total int - numero total de mortes/casos
+ * \param cindicator[7] char - indicador se os dados são relativos ás mortes ou casos
+ * \return Week* - Apontador para a primeira semana desta lista
+ *
+ */
 Week *create_week(Country *Country,char n_week[8],int week_values,float week_ratio,int total,char cindicator[7]){
     Week *NewWeek = NULL;
     int ind_aux;
 
+    // Torna o indicador em int, desta forma é amis facil saber que dados uma semana tem em cada país
     if(strcmp("cases", cindicator)==0){
         ind_aux = 1;
     }else if(strcmp("deaths", cindicator)==0){
@@ -30,6 +56,7 @@ Week *create_week(Country *Country,char n_week[8],int week_values,float week_rat
             fprintf(stderr, "-1 Erro de Leitura: A semana pedida tem dados repetidos\n");
             exit(0);
         }
+        // Verifica o indicador
         if(ind_aux == 1){
             NewWeek->week_cases = week_values;
             NewWeek->week_cases_ratio = week_ratio;
@@ -60,11 +87,20 @@ Week *create_week(Country *Country,char n_week[8],int week_values,float week_rat
     return NewWeek;
 }
 
-//probelam desta função: se criarmos paises mas não os adicionarmos as listas dá problemas
+/** \brief Função qe cria um país
+ *
+ * \param CountryHead Country* - Apontador para o primeiro país da lista
+ * \param country[64] char - nome do país
+ * \param country_code[4] char - sigla do país
+ * \param continent[16] char - nome do continente
+ * \param population unsigned longint - população do país
+ * \return Country* - Apontador para o primeiro país da lista
+ *
+ */
 Country *create_country(Country *CountryHead, char country[64], char country_code[4], char continent[16], unsigned long int population)
 {
     Country *NewCountry = NULL;
-    //Looks for the country name to see if there is already a node with that name
+    //Procura pelo país, para ver se ele já existe
     if((NewCountry = look_for_country(country, CountryHead)) != NULL){
         return NewCountry;
     }
@@ -83,9 +119,16 @@ Country *create_country(Country *CountryHead, char country[64], char country_cod
 }
 
 
+/** \brief Função que adiciona um país ao fim da lista
+ *
+ * \param CountryHead Country* - Apontador para o primeiro país da lista
+ * \param NewCountry Country* - Apontador para o novo país
+ * \return Country* - Apontador para o primeiro país da lista
+ *
+ */
 Country *add_CEL(Country *CountryHead, Country *NewCountry){
     Country *Aux = NULL;
-    //verifica se ja existe na lista antes de adicionar
+    // Verifica se ja existe na lista antes de adicionar
     if(look_for_country(NewCountry->country, CountryHead) != NULL){
         return CountryHead;
     }
@@ -101,6 +144,13 @@ Country *add_CEL(Country *CountryHead, Country *NewCountry){
     return CountryHead;
 }
 
+/** \brief Função que adiciona um país ao fim da lista
+ *
+ * \param Country Country* - Apontador para o país
+ * \param NewWeek Week* - Apontador para a nova semana
+ * \return Week* - Apontador para a primeira semana da lista
+ *
+ */
 Week *add_WEL(Country *Country, Week *NewWeek){
     Week *Aux = NULL;
     //verifica se ja existe na lista antes de adicionar
@@ -119,6 +169,13 @@ Week *add_WEL(Country *Country, Week *NewWeek){
     return Country->week_head;
 }
 
+/** \brief Função que procura por um país
+ *
+ * \param country[64] char - nome do país
+ * \param CountryHead Country* - Apontador para o primeiro país da lista
+ * \return Country* - Apontador para o país, caso o encontre
+ *
+ */
 Country *look_for_country(char country[64], Country *CountryHead){
     Country *Aux = NULL;
     Country *FoundCountry = NULL;
@@ -138,6 +195,13 @@ Country *look_for_country(char country[64], Country *CountryHead){
     return FoundCountry;
 }
 
+/** \brief Função que procura por uma semana
+ *
+ * \param Country Country* - Apontador para o país
+ * \param n_week[8] char - semana e ano
+ * \return Week* - Apontador para a semana, caso a encontre
+ *
+ */
 Week *look_for_week(Country *Country, char n_week[8]){
     Week *FoundWeek = NULL;
     Week *Aux = NULL;
@@ -155,7 +219,14 @@ Week *look_for_week(Country *Country, char n_week[8]){
     return FoundWeek;
 }
 
-void print_nodes(Country *CountryHead){//apagar no fim
+/** \brief Função usada para testar o código rapidamente
+ *
+ * \param CountryHead Country*
+ * \return void
+ *
+ */
+/*
+void print_nodes(Country *CountryHead){
     Country *Aux = NULL;
     Week *AuxW = NULL;
     for(Aux = CountryHead; Aux != NULL; Aux = Aux->next_country){
@@ -166,7 +237,14 @@ void print_nodes(Country *CountryHead){//apagar no fim
     }
     return;
 }
+*/
 
+
+/** \brief Função que liberta a memória alocada para a lista
+ *
+ * \param CountryHead Country* - Apontador para o primeiro país da lista
+ *
+ */
 void free_nodes(Country *CountryHead){
     Country *Aux = NULL;
     Week *AuxW = NULL;
@@ -186,9 +264,17 @@ void free_nodes(Country *CountryHead){
     return;
 }
 
+/** \brief Função que remove um país
+ *
+ * \param CountryHead Country* - Apontador para o primeiro país da lista
+ * \param WantRemoved Country* - Apontador para o país que queremos remover
+ * \return Country* - Apontador para o primeiro país da lista
+ *
+ */
 Country *remove_country(Country *CountryHead, Country *WantRemoved){
     Country *Aux;
-    Country *BAux = NULL;  
+    Country *BAux = NULL;
+    // Procura pelo país queremos remover, para podermos ter o país anterior e religar a lista toda
     for(Aux = CountryHead; Aux != NULL; Aux = Aux->next_country){
         if(Aux == WantRemoved){
             if(BAux == NULL){
@@ -207,9 +293,17 @@ Country *remove_country(Country *CountryHead, Country *WantRemoved){
     return CountryHead;
 }
 
+/** \brief Função que remove uma semana
+ *
+ * \param Country Country* - Apontador para o país
+ * \param WantRemoved Week* - Apontador para a semana que queremos remover
+ * \return Week*- Apontador para a primeira semana da lista
+ *
+ */
 Week *remove_week(Country *Country, Week *WantRemoved){
     Week *AuxW;
     Week *BAuxW = NULL;
+    // Procura pela semana que queremos remover, para podermos ter a semana anterior e religar a lista toda
     for(AuxW = Country->week_head; AuxW != NULL; AuxW = AuxW->next_week){
         if(AuxW == WantRemoved){
             if(BAuxW == NULL){
@@ -225,6 +319,12 @@ Week *remove_week(Country *Country, Week *WantRemoved){
     }
     return Country->week_head;
 }
+
+/** \brief Função que elimina todas as semanas de um país
+ *
+ * \param Week_head Week* - Apontador para a primeira semana
+ *
+ */
 void remove_country_weeks(Week* Week_head){
     Week *Save_week = NULL;
 
