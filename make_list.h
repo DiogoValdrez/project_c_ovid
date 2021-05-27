@@ -5,24 +5,24 @@
 #include <string.h>
 typedef struct Week
 {
-    char n_week[8];
-    int week_cases;
     float week_cases_ratio;
+    float week_deaths_ratio;
+    int week_cases;
     int total_cases;
     int week_deaths;
-    float week_deaths_ratio;
     int total_deaths;
     int indicator;
+    char n_week[8];
     struct Week *next_week;
 }Week;
 
 
 typedef struct Country
 {
+    unsigned long int population;
     char country[64];
     char country_code[4];
     char continent[16]; 
-    unsigned long int population;
     Week *week_head;
     struct Country *next_country;
 }Country;

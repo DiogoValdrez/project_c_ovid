@@ -12,7 +12,7 @@ int find_cases_week(Country* country, char sort_week[8])
         return 0;
     }else
     {
-        return look_week->total_cases;
+        return look_week->week_cases;
     }
 }
 
@@ -29,7 +29,7 @@ int find_deaths_week(Country* country, char sort_week[8])
         return 0;
     }else
     {
-        return look_week->total_deaths;
+        return look_week->week_deaths;
     }
 }
 
@@ -167,7 +167,6 @@ void sort(Country** head, char sort_type[8], char sort_week[8])
                 }
                 swaps = 1;
             }
-            printf("%s--%s\n", current_country->country, right_country->country);
             
             current_country = right_country;
             
