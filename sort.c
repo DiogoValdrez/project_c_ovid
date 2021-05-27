@@ -42,7 +42,6 @@ Country *sortposition(Country *head,char country1[64], char country2[64]){
     }  
           
     //If n1 and n2 are equal, then list will remain the same  
-    //printf("%s:%s\n\n", country1, country2);
     if(strcmp(country1, country2) == 0)
     {
           

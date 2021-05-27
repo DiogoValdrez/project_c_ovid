@@ -35,7 +35,7 @@ int main(int argc, char *argv[])
             strcpy(read_data, optarg);
             if (strcmp(read_data, "all") && strcmp(read_data, "Africa") && strcmp(read_data, "Oceania") && strcmp(read_data, "Europe") && strcmp(read_data, "America") && strcmp(read_data, "Asia"))
             {
-                printf("Argumento para opção -L incorreto\n");
+                fprintf(stderr, "-1 Erro de Argumento: argumento para opção -L incorreto\n");
                 return EXIT_FAILURE;
             }
             opt_L = 1;
@@ -57,7 +57,7 @@ int main(int argc, char *argv[])
             }
             if (strcmp(sort_type, "alfa") && strcmp(sort_type, "pop") && strcmp(sort_type, "inf") && strcmp(sort_type, "dea"))
             {
-                printf("Argumento para opção -S incorreto\n");
+                fprintf(stderr, "-1 Erro de Argumento: argumento para opção -S incorreto\n");
                 return EXIT_FAILURE;
             }
             opt_S = 1;
@@ -66,7 +66,7 @@ int main(int argc, char *argv[])
             strcpy(select_data, argv[optind-1]);
             if (strcmp(select_data, "inf") && strcmp(select_data, "dea") && strcmp(select_data, "racioinf") && strcmp(select_data, "raciodea"))
             {
-                printf("Argumento para opção -D incorreto\n");
+                fprintf(stderr, "-1 Erro de Argumento: argumento para opção -D incorreto\n");
                 return EXIT_FAILURE;
             }
             opt_D = 1;
@@ -92,7 +92,7 @@ int main(int argc, char *argv[])
             }
             if (strcmp(restrict_data_type, "min") && strcmp(restrict_data_type, "max") && strcmp(restrict_data_type, "date") && strcmp(restrict_data_type, "dates"))
             {
-                printf("Argumento para opção -P incorreto\n");
+                fprintf(stderr, "-1 Erro de Argumento: argumento para opção -P incorreto\n");
                 return EXIT_FAILURE;
             }
             opt_P = 1;
@@ -107,7 +107,7 @@ int main(int argc, char *argv[])
             break;
         case '?':
             if (isprint (optopt))
-            fprintf (stderr, "> opcao `-%c' desconhecida.\n", optopt);
+            fprintf(stderr, "-1 Erro de Argumento: opcao '-%c' desconhecida.\n", optopt);
             return EXIT_FAILURE;
       }
     }
@@ -127,7 +127,7 @@ int main(int argc, char *argv[])
     }else if(strncmp(last4i, ".dat", -4) == 0){
         CountryHead = getdat(CountryHead, file_read, read_data);
     }else{
-        printf("ERRO ao ler o ficheiro, não é nem .dat nem .csv\n");
+        fprintf(stderr, "-1 Erro de Leitura: o ficheiro de leitura tem de ser .dat ou.csv\n");
         exit(0);
     }
 
@@ -147,7 +147,7 @@ int main(int argc, char *argv[])
     }else if(strncmp(last4o, ".dat", -4) == 0){
         expdat(file_write, CountryHead);
     }else{
-        printf("ERRO ao exportar o ficheiro, não é nem .dat nem .csv\n");
+        fprintf(stderr, "-1 Erro de Leitura: o ficheiro exportado tem de ser .dat ou.csv\n");
         exit(0);
     }
     
