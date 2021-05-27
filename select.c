@@ -1,5 +1,12 @@
 #include "select.h"
 
+/** \Função que faz a seleção de dados
+ *
+ * \param CountryHead -> ponteiro para a head da lista de países
+ * \param select_data -> Argumento dado pelo utilizador para o tipo de seleção de dados
+ * \return
+ *
+ */
 
 void select_d(Country* CountryHead, char select_data[12])
 {

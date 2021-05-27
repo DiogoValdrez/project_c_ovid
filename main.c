@@ -10,14 +10,22 @@
 #include "select.h"
 
 #define LISTA_OPCOES "-:L:S:D:P:i:o:"
-//remover -g do make
+
+/** \Pandemia
+ * \Autores: Diogo Valdrez 99914, Pedro Raposo 100059
+ *
+ * \Descrição:  Projeto Pandemia
+ * \            Realizado como projeto final para a UC Programação
+ *
+ */
+
 int main(int argc, char *argv[])
 {
 
     Country *CountryHead = NULL;
     int helper;
 	int opt;
-    //Variables to check whether or not the options were inputted
+    //Variáveis que verificam se as opções foram ou não ativadas
     int opt_L = 0, opt_S = 0, opt_D = 0, opt_P = 0, opt_i = 0, opt_o = 0;
     char read_data[24] = "all";
     char sort_type[8] = "alfa", sort_week[8] = "";
@@ -71,7 +79,7 @@ int main(int argc, char *argv[])
             }
             opt_D = 1;
             break;
-        case 'P': // opção com argumentos obrigatórios
+        case 'P':
             optind--;
             helper = 0;
             for(;optind < argc && *argv[optind] != '-'; optind++)
@@ -112,6 +120,7 @@ int main(int argc, char *argv[])
       }
     }
 
+    //Verificação das opções
     if (opt_i == 0 || opt_o == 0 || (opt_L == 0 && opt_S == 0 && opt_D == 0 && opt_P == 0 && opt_i == 0 && opt_o == 0))
     {
         printf("Opções Obrigatórias:\n\t-i: Opção de Leitura de Dados de Ficheiro\n\t-o: Opção de Escrita de Dados em Ficheiro\n");
@@ -122,6 +131,8 @@ int main(int argc, char *argv[])
 
     char *last4i = &file_read[strlen(file_read)-4];
     char *last4o = &file_write[strlen(file_write)-4];
+
+    //Leitura de dados de um ficheiro
     if(strncmp(last4i, ".csv", -4) == 0){
         CountryHead = getcsv(CountryHead, file_read, read_data);
     }else if(strncmp(last4i, ".dat", -4) == 0){
@@ -131,6 +142,7 @@ int main(int argc, char *argv[])
         exit(0);
     }
 
+    //Realizar caso as opções tenham sido acionadas
     if (opt_D == 1)
     {
         select_d(CountryHead, select_data);
@@ -142,6 +154,7 @@ int main(int argc, char *argv[])
 
     sort(&CountryHead, sort_type, sort_week);
 
+    //Escrita de dados num ficheiro
     if(strncmp(last4o, ".csv", -4) == 0){
         expcsv(file_write, CountryHead);
     }else if(strncmp(last4o, ".dat", -4) == 0){
