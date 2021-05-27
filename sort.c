@@ -7,7 +7,13 @@ int find_cases_week(Country* country, char sort_week[8])
     {
         look_week = look_week->next_week;
     }
-    return look_week->total_cases;
+    if (strcmp(sort_week, look_week->n_week) != 0)
+    {
+        return 0;
+    }else
+    {
+        return look_week->total_cases;
+    }
 }
 
 int find_deaths_week(Country* country, char sort_week[8])
@@ -18,10 +24,16 @@ int find_deaths_week(Country* country, char sort_week[8])
     {
         look_week = look_week->next_week;
     }
-    return look_week->total_deaths;
+    if (strcmp(sort_week, look_week->n_week) != 0)
+    {
+        return 0;
+    }else
+    {
+        return look_week->total_deaths;
+    }
 }
 
-Country *sortposition(Country *head,int n1, int n2){  
+Country *sortposition(Country *head,char country1[64], char country2[64]){  
     Country *prevNode1 = NULL, *prevNode2 = NULL, *node1 = head, *node2 = head, *temp = NULL;  
       
     //Checks if list is empty  
@@ -30,17 +42,21 @@ Country *sortposition(Country *head,int n1, int n2){
     }  
           
     //If n1 and n2 are equal, then list will remain the same  
-    if(n1 == n2)  
-        return head;  
-      
+    //printf("%s:%s\n\n", country1, country2);
+    if(strcmp(country1, country2) == 0)
+    {
+          
+        return head;;  
+    } 
+
     //Search for node1  
-    while(node1 != NULL && node1->population != n1){  
+    while(node1 != NULL && strcmp(node1->country, country1) != 0){  
         prevNode1 = node1;  
         node1 = node1->next_country;  
     }  
       
     //Search for node2  
-    while(node2 != NULL && node2->population != n2){  
+    while(node2 != NULL && strcmp(node2->country, country2) != 0){  
         prevNode2 = node2;  
         node2 = node2->next_country;  
     }  
@@ -84,13 +100,14 @@ void sort(Country** head, char sort_type[8], char sort_week[8])
             // Guardar a posição do país seguinte
             right_country = current_country->next_country;
 
+            //Caso odernação seja alfabética
             if (strcmp(current_country->country, right_country->country) > 0 && strcmp(sort_type, "alfa") == 0)
             {
                 if (current_country == some_country)
                 {
-                    some_country = sortposition(some_country, current_country->population, right_country->population);
+                    some_country = sortposition(some_country, current_country->country, right_country->country);
                 }else{
-                    sortposition(some_country, current_country->population, right_country->population);
+                    sortposition(some_country, current_country->country, right_country->country);
                 }
                 swaps = 1;
             }
@@ -98,20 +115,37 @@ void sort(Country** head, char sort_type[8], char sort_week[8])
             {
                 if (current_country == some_country)
                 {
-                    some_country = sortposition(some_country, current_country->population, right_country->population);
+                    some_country = sortposition(some_country, current_country->country, right_country->country);
                 }else{
-                    sortposition(some_country, current_country->population, right_country->population);
+                    sortposition(some_country, current_country->country, right_country->country);
                 }
-                
+                swaps = 1;
+            }else if(strcmp(current_country->country, right_country->country) > 0 && (current_country->population == right_country->population) && strcmp(sort_type, "pop") == 0)
+            {
+                if (current_country == some_country)
+                {
+                    some_country = sortposition(some_country, current_country->country, right_country->country);
+                }else{
+                    sortposition(some_country, current_country->country, right_country->country);
+                }
                 swaps = 1;
             }
             if (find_cases_week(current_country, sort_week) < find_cases_week(right_country, sort_week) && strcmp(sort_type, "inf") == 0)
             {
                 if (current_country == some_country)
                 {
-                    some_country = sortposition(some_country, current_country->population, right_country->population);
+                    some_country = sortposition(some_country, current_country->country, right_country->country);
                 }else{
-                    sortposition(some_country, current_country->population, right_country->population);
+                    sortposition(some_country, current_country->country, right_country->country);
+                }
+                swaps = 1;
+            }else if(strcmp(current_country->country, right_country->country) > 0 && find_cases_week(current_country, sort_week) == find_cases_week(right_country, sort_week) && strcmp(sort_type, "inf") == 0)
+            {
+                if (current_country == some_country)
+                {
+                    some_country = sortposition(some_country, current_country->country, right_country->country);
+                }else{
+                    sortposition(some_country, current_country->country, right_country->country);
                 }
                 swaps = 1;
             }
@@ -119,13 +153,22 @@ void sort(Country** head, char sort_type[8], char sort_week[8])
             {
                 if (current_country == some_country)
                 {
-                    some_country = sortposition(some_country, current_country->population, right_country->population);
+                    some_country = sortposition(some_country, current_country->country, right_country->country);
                 }else{
-                    sortposition(some_country, current_country->population, right_country->population);
+                    sortposition(some_country, current_country->country, right_country->country);
+                }
+                swaps = 1;
+            }else if(strcmp(current_country->country, right_country->country) > 0 && find_deaths_week(current_country, sort_week) == find_deaths_week(right_country, sort_week) && strcmp(sort_type, "dea") == 0)
+            {
+                if (current_country == some_country)
+                {
+                    some_country = sortposition(some_country, current_country->country, right_country->country);
+                }else{
+                    sortposition(some_country, current_country->country, right_country->country);
                 }
                 swaps = 1;
             }
-
+            printf("%s--%s\n", current_country->country, right_country->country);
             
             current_country = right_country;
             
