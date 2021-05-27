@@ -26,12 +26,12 @@ int main(int argc, char *argv[])
     char file_read[24];
     char file_write[24];
 	opterr = 0;
-	
-	while((opt = getopt(argc, argv, LISTA_OPCOES)) != -1)  
+
+	while((opt = getopt(argc, argv, LISTA_OPCOES)) != -1)
 	{
 	  switch (opt)
       {
-        case 'L': 
+        case 'L':
             strcpy(read_data, optarg);
             if (strcmp(read_data, "all") && strcmp(read_data, "Africa") && strcmp(read_data, "Oceania") && strcmp(read_data, "Europe") && strcmp(read_data, "America") && strcmp(read_data, "Asia"))
             {
@@ -40,7 +40,7 @@ int main(int argc, char *argv[])
             }
             opt_L = 1;
             break;
-        case 'S':  
+        case 'S':
             optind--;
             helper = 0;
             for(;optind < argc && *argv[optind] != '-'; optind++)
@@ -97,11 +97,11 @@ int main(int argc, char *argv[])
             }
             opt_P = 1;
             break;
-        case 'i': 
+        case 'i':
             strcpy(file_read, optarg);
             opt_i = 1;
             break;
-        case 'o':  
+        case 'o':
             strcpy(file_write, optarg);
             opt_o = 1;
             break;
@@ -131,7 +131,7 @@ int main(int argc, char *argv[])
         exit(0);
     }
 
-    if (opt_S == 1)
+    if (opt_D == 1)
     {
         select_d(CountryHead, select_data);
     }
@@ -139,9 +139,9 @@ int main(int argc, char *argv[])
     {
         CountryHead = do_restrict(CountryHead, restrict_data_type, restrict_data_week, restrict_data_interval_week);
     }
-    
+
     sort(&CountryHead, sort_type, sort_week);
-    
+
     if(strncmp(last4o, ".csv", -4) == 0){
         expcsv(file_write, CountryHead);
     }else if(strncmp(last4o, ".dat", -4) == 0){
@@ -150,7 +150,7 @@ int main(int argc, char *argv[])
         fprintf(stderr, "-1 Erro de Leitura: o ficheiro exportado tem de ser .dat ou.csv\n");
         exit(0);
     }
-    
+
     print_nodes(CountryHead);
     free_nodes(CountryHead);
     return 0;
