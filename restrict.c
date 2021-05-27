@@ -1,7 +1,16 @@
 #include "restrict.h"
 
+/** \brief Função que trata das restrições
+ *
+ * \param CountryHead Country* - Apontador para o primeiro país da lista
+ * \param restrict_data_type[8]
+ * \param restrict_data_week[8] char
+ * \param restrict_data_interval_week[8] char
+ * \return Country*
+ *
+ */
 Country *do_restrict(Country *CountryHead, char restrict_data_type[8], char restrict_data_week[8], char restrict_data_interval_week[8]){
-    int aux = -1;//valore default aleatorio
+    int aux = -1;//valor default
     unsigned long int aux2 = 0;
     Country *Aux = NULL;
     Country *Aux2 = NULL;
@@ -10,6 +19,7 @@ Country *do_restrict(Country *CountryHead, char restrict_data_type[8], char rest
 
     if(strcmp(restrict_data_type, "min") == 0){
         aux = 0;
+        // Transforma o char em unsigned long int e multiplica por 1000 para ficar igual aos valores que estão na lista
         aux2 = (unsigned long int)atoi(restrict_data_week)*1000;
     }else if(strcmp(restrict_data_type, "max") == 0){
         aux = 1;
@@ -57,12 +67,19 @@ Country *do_restrict(Country *CountryHead, char restrict_data_type[8], char rest
                 }
             }
         }
-        break;   
+        break;
     }
     return CountryHead;
 }
 
-int compare_dates(char date1[8], char date2[8]){//retorna 1,2,0 se for maior, menor ou igual a primeiro e a segunda data, respetivamente
+/** \brief Função que compara semanas
+ *
+ * \param date1[8] char
+ * \param date2[8] char
+ * \return int - retorna 1,2,0 se for maior, menor ou igual à primeira e à segunda data, respetivamente
+ *
+ */
+int compare_dates(char date1[8], char date2[8]){
     int i;
     int comp = 0;
     for(i = 0; i < 8; i++){
