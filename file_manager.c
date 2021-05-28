@@ -17,7 +17,7 @@ Country* getcsv(Country* CountryHead, char filename[32], char opLD[16]){
     char *aux = NULL;
     char *aux2 = NULL;
     char n_week[8];
-    char n_helper[2];
+    char n_helper[8] = "\0";
     int n_help;
     int week_values = 0;
     char week_value_char[20];
@@ -241,7 +241,7 @@ Country* getcsv(Country* CountryHead, char filename[32], char opLD[16]){
         }
 
 
-        
+
 
         CountryHead = create_node(CountryHead, country, country_code, continent, population, n_week, week_values, week_ratio, total, cindicator);
         free(aux2);
