@@ -12,17 +12,24 @@ Country* getcsv(Country* CountryHead, char filename[32], char opLD[16]){
     char buffer[100000];
     int line = 0;
     int column = 0;
+    int i;
     char *token = NULL;
     char *aux = NULL;
     char *aux2 = NULL;
     char n_week[8];
+    char n_helper[2];
+    int n_help;
     int week_values = 0;
+    char week_value_char[20];
     float week_ratio = 0;
+    char week_ratio_char[20];
     int total = 0;
+    char total_char[20];
     char country[64];
     char country_code[4];
     char continent[16];
     unsigned long int population = 0;
+    char population_char[20];
     char cindicator[7];
 
     // Abre o ficheior em modo de leitura e verifica se houve algum erro ao abri-lo
@@ -54,22 +61,23 @@ Country* getcsv(Country* CountryHead, char filename[32], char opLD[16]){
                 strcpy(continent, token);
                 break;
             case 4:
-                population = atoll(token);
+                strcpy(population_char, token);
                 break;
             case 5:
                 strcpy(cindicator, token);
                 break;
             case 6:
-                week_values = atoi(token);
+                strcpy(week_value_char, token);
                 break;
             case 7:
                 strcpy(n_week, token);
                 break;
             case 8:
+                strcpy(week_ratio_char, token);
                 week_ratio = atof(token);
                 break;
             case 9:
-                total = atoi(token);
+                strcpy(total_char, token);
                 break;
             }
         }
@@ -81,6 +89,160 @@ Country* getcsv(Country* CountryHead, char filename[32], char opLD[16]){
             free(aux2);
             continue;
         }
+
+        //Verificar os dados lidos
+        //Nome do país
+        i = 0;
+        while (country[i] != '\0')
+        {
+            if((country[i] < 65 && country[i] != 32 )|| country[i] >122 || (country[i] < 97 && country[i] > 90))
+            {
+                free_nodes(CountryHead);
+                fprintf(stderr, "-1 Erro de Leitura: dados na coluna 1 incompativeis");
+                exit(0);
+            }
+            i++;
+        }
+        //Código do País
+        i = 0;
+        while (country_code[i] != '\0')
+        {
+            if(country_code[i] < 65 || country_code[i] > 90)
+            {
+                free_nodes(CountryHead);
+                fprintf(stderr, "-1 Erro de Leitura: dados na coluna 2 incompativeis");
+                exit(0);
+            }
+            i++;
+        }
+        //Caso o código do país tenha mais de 3 letras
+        if (i > 3)
+        {
+            free_nodes(CountryHead);
+            fprintf(stderr, "-1 Erro de Leitura: dados na coluna 2 incompativeis");
+            exit(0);
+        }
+        //Continente
+        if (strcmp(continent, "Africa") && strcmp(continent, "Oceania") && strcmp(continent, "Europe") && strcmp(continent, "America") && strcmp(continent, "Asia"))
+        {
+            free_nodes(CountryHead);
+            fprintf(stderr, "-1 Erro de Leitura: dados na coluna 3 incompativeis");
+            exit(0);
+        }
+        //Population
+        i = 0;
+        while (population_char[i] != '\0')
+        {
+            if(isdigit(population_char[i]) == 0)
+            {
+                free_nodes(CountryHead);
+                fprintf(stderr, "-1 Erro de Leitura: dados na coluna 4 incompativeis");
+                exit(0);
+            }
+            i++;
+        }
+        population = atoll(population_char);
+        if (population < 0)
+        {
+            free_nodes(CountryHead);
+            fprintf(stderr, "-1 Erro de Leitura: dados na coluna 4 incompativeis");
+            exit(0);
+        }
+        //Indicator
+        if (strcmp(cindicator, "cases") && strcmp(cindicator, "deaths"))
+        {
+            free_nodes(CountryHead);
+            fprintf(stderr, "-1 Erro de Leitura: dados na coluna 5 incompativeis");
+            exit(0);
+        }
+
+        //N_week
+        if (n_week[4] != '-')
+        {
+            free_nodes(CountryHead);
+            fprintf(stderr, "-1 Erro de Leitura: dados na coluna 7 incompativeis");
+            exit(0);
+        }
+        i = 0;
+        while (n_week[i] != '\0')
+        {
+            if(isdigit(n_week[i]) == 0 && i != 4)
+            {
+                free_nodes(CountryHead);
+                fprintf(stderr, "-1 Erro de Leitura: dados na coluna 7 incompativeis");
+                exit(0);
+            }
+            i++;
+        }
+        n_helper[0] = n_week[5];
+        n_helper[1] = n_week[6];
+        n_help = atoi(n_helper);
+        if (n_help > 53)
+        {
+            free_nodes(CountryHead);
+            fprintf(stderr, "-1 Erro de Leitura: dados na coluna 7 incompativeis");
+            exit(0);
+        }
+        //Week_values
+        i = 0;
+        while (week_value_char[i] != '\0')
+        {
+            if(isdigit(week_value_char[i]) == 0)
+            {
+                free_nodes(CountryHead);
+                fprintf(stderr, "-1 Erro de Leitura: dados na coluna 6 incompativeis");
+                exit(0);
+            }
+            i++;
+        }
+        week_values = atoi(week_value_char);
+        if (week_values < 0)
+        {
+            free_nodes(CountryHead);
+            fprintf(stderr, "-1 Erro de Leitura: dados na coluna 6 incompativeis");
+            exit(0);
+        }
+        //Total
+        i = 0;
+        while (total_char[i] != '\0')
+        {
+            if((total_char[i] < 48 || total_char[i] > 57 ) && total_char[i] != 13 && total_char[i] != 10)
+            {
+                free_nodes(CountryHead);
+                fprintf(stderr, "-1 Erro de Leitura: dados na coluna 9 incompativeis:%s", total_char);
+                exit(0);
+            }
+            i++;
+        }
+        total = atoi(total_char);
+        if (total < 0)
+        {
+            free_nodes(CountryHead);
+            fprintf(stderr, "-1 Erro de Leitura: dados na coluna 9 incompativeis");
+            exit(0);
+        }
+        //week_ratio
+         i = 0;
+        while (week_ratio_char[i] != '\0')
+        {
+            if(isdigit(week_ratio_char[i]) == 0 && week_ratio_char[i] != '.')
+            {
+                free_nodes(CountryHead);
+                fprintf(stderr, "-1 Erro de Leitura: dados na coluna 8 incompativeis");
+                exit(0);
+            }
+            i++;
+        }
+        if (week_ratio < 0)
+        {
+            free_nodes(CountryHead);
+            fprintf(stderr, "-1 Erro de Leitura: dados na coluna 8 incompativeis");
+            exit(0);
+        }
+
+
+        
+
         CountryHead = create_node(CountryHead, country, country_code, continent, population, n_week, week_values, week_ratio, total, cindicator);
         free(aux2);
     }

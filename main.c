@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
     int helper;
 	int opt;
     //Variáveis que verificam se as opções foram ou não ativadas
-    int opt_L = 0, opt_S = 0, opt_D = 0, opt_P = 0, opt_i = 0, opt_o = 0;
+    int opt_L = 0, opt_S = 0, opt_D = 0, opt_P = 0, opt_i = 0, opt_o = 0, opt_dat = 0;
     char read_data[24] = "all";
     char sort_type[8] = "alfa", sort_week[8] = "";
     char select_data[12];
@@ -137,22 +137,26 @@ int main(int argc, char *argv[])
         CountryHead = getcsv(CountryHead, file_read, read_data);
     }else if(strncmp(last4i, ".dat", -4) == 0){
         CountryHead = getdat(CountryHead, file_read, read_data);
+        opt_dat = 1;
     }else{
         fprintf(stderr, "-1 Erro de Leitura: o ficheiro de leitura tem de ser .dat ou.csv\n");
         return EXIT_FAILURE;
     }
-
-    //Realizar caso as opções tenham sido acionadas
-    if (opt_D == 1)
+    if (opt_dat == 0)
     {
-        select_d(CountryHead, select_data);
-    }
-    if (opt_P == 1)
-    {
-        CountryHead = do_restrict(CountryHead, restrict_data_type, restrict_data_week, restrict_data_interval_week);
-    }
+        //Realizar caso as opções tenham sido acionadas
+        if (opt_D == 1)
+        {
+            select_d(CountryHead, select_data);
+        }
+        if (opt_P == 1)
+        {
+            CountryHead = do_restrict(CountryHead, restrict_data_type, restrict_data_week, restrict_data_interval_week);
+        }
 
-    sort(&CountryHead, sort_type, sort_week);
+        sort(&CountryHead, sort_type, sort_week);
+    
+    }
 
     //Escrita de dados num ficheiro
     if(strncmp(last4o, ".csv", -4) == 0){
@@ -165,7 +169,6 @@ int main(int argc, char *argv[])
         return EXIT_FAILURE;
     }
 
-    print_nodes(CountryHead);
     free_nodes(CountryHead);
     return 0;
 }
