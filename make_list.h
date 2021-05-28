@@ -28,7 +28,7 @@ typedef struct Country
 }Country;
 
 Country *create_node(Country *CountryHead, char country[64], char country_code[4], char continent[16], unsigned long int population, char n_week[8],int week_values,float week_ratio,int total, char cindicator[7]);
-Week *create_week(Country *Country,char n_week[8],int week_values,float week_ratio,int total, char cindicator[7]);
+Week *create_week(Country *CountryHead, Country *Country,char n_week[8],int week_values,float week_ratio,int total, char cindicator[7]);
 Country *create_country(Country *CountryHead, char country[64], char country_code[4], char continent[16], unsigned long int population);
 Country *add_CEL(Country *CountryHead, Country *NewCountry);
 Week *add_WEL(Country *Country, Week *NewWeek);

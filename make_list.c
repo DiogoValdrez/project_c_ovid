@@ -20,7 +20,7 @@ Country *create_node(Country *CountryHead, char country[64], char country_code[4
     Week *NewWeek = NULL;
     Country *Country = NULL;
     Country = create_country(CountryHead, country, country_code, continent, population);
-    NewWeek = create_week(Country, n_week, week_values, week_ratio, total, cindicator);
+    NewWeek = create_week(CountryHead, Country, n_week, week_values, week_ratio, total, cindicator);
     Country->week_head = add_WEL(Country, NewWeek);
     CountryHead = add_CEL(CountryHead, Country);
     return CountryHead;
@@ -37,7 +37,7 @@ Country *create_node(Country *CountryHead, char country[64], char country_code[4
  * \return Week* - Apontador para a primeira semana desta lista
  *
  */
-Week *create_week(Country *Country,char n_week[8],int week_values,float week_ratio,int total,char cindicator[7]){
+Week *create_week(Country *CountryHead, Country *Country,char n_week[8],int week_values,float week_ratio,int total,char cindicator[7]){
     Week *NewWeek = NULL;
     int ind_aux;
 
@@ -48,12 +48,14 @@ Week *create_week(Country *Country,char n_week[8],int week_values,float week_rat
         ind_aux = 2;
     }else{
         fprintf(stderr, "-1 Erro de Leitura: Indicador com valor inválido\n");
+        free_nodes(CountryHead);
         exit(0);
     }
     NewWeek = look_for_week(Country, n_week);
     if(NewWeek != NULL){
         if(NewWeek->indicator == ind_aux || NewWeek->indicator == 3){
             fprintf(stderr, "-1 Erro de Leitura: A semana pedida tem dados repetidos\n");
+            free_nodes(CountryHead);
             exit(0);
         }
         // Verifica o indicador
@@ -71,6 +73,7 @@ Week *create_week(Country *Country,char n_week[8],int week_values,float week_rat
     }
     if((NewWeek = (Week*)calloc(1, sizeof(Week)))==NULL){
         fprintf(stderr, "-1 Erro de Alocação: Não foi possivel alocar o bloco de memória.[create_week]\n");
+        free_nodes(CountryHead);
         exit(0);
     }
     NewWeek->indicator = ind_aux;
@@ -106,6 +109,7 @@ Country *create_country(Country *CountryHead, char country[64], char country_cod
     }
     if((NewCountry = (Country*)calloc(1, sizeof(Country)))==NULL){
         fprintf(stderr, "-1 Erro de Alocação: Não foi possivel alocar o bloco de memória.[create_country]\n");
+        free_nodes(CountryHead);
         exit(0);
     }
     strcpy(NewCountry->country, country);

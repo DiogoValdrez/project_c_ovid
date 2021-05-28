@@ -216,5 +216,6 @@ void sort(Country** head, char sort_type[8], char sort_week[8])
     }
 
     *head = some_country;
+    return;
 }
 

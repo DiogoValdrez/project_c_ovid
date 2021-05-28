@@ -139,7 +139,7 @@ int main(int argc, char *argv[])
         CountryHead = getdat(CountryHead, file_read, read_data);
     }else{
         fprintf(stderr, "-1 Erro de Leitura: o ficheiro de leitura tem de ser .dat ou.csv\n");
-        exit(0);
+        return EXIT_FAILURE;
     }
 
     //Realizar caso as opções tenham sido acionadas
@@ -161,7 +161,8 @@ int main(int argc, char *argv[])
         expdat(file_write, CountryHead);
     }else{
         fprintf(stderr, "-1 Erro de Leitura: o ficheiro exportado tem de ser .dat ou.csv\n");
-        exit(0);
+        free_nodes(CountryHead);
+        return EXIT_FAILURE;
     }
 
     print_nodes(CountryHead);

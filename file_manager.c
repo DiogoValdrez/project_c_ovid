@@ -103,7 +103,8 @@ void expcsv(char filename[32], Country *CountryHead){
     // Abre o ficheior em modo de escrita e verifica se houve algum erro ao abri-lo
     fp = fopen(filename, "w");
     if(fp == NULL){
-       fprintf(stderr, "-1 Erro de Ficheiro: não é possivel exportar para o ficheiro %s\n", filename);
+        fprintf(stderr, "-1 Erro de Ficheiro: não é possivel exportar para o ficheiro %s\n", filename);
+        free_nodes(CountryHead);
         exit(0);
     }
 
@@ -162,6 +163,7 @@ Country* getdat(Country* CountryHead, char filename[32], char opLD[16]){
             for(aux = number; aux != 0; aux--){
                 if((NewWeek = (Week*)calloc(1, sizeof(Week)))==NULL){
                         fprintf(stderr, "-1 Erro de Alocação: não foi possivel alocar o bloco de memória.[getdat]\n");
+                        free_nodes(CountryHead);
                         exit(0);
                 }
                 fread(NewWeek, sizeof(Week), 1, fp);
@@ -177,6 +179,7 @@ Country* getdat(Country* CountryHead, char filename[32], char opLD[16]){
             WeekHead = NULL;
             if((NewCountry = (Country*)calloc(1, sizeof(Country)))==NULL){
                 fprintf(stderr, "-1 Erro de Alocação: não foi possivel alocar o bloco de memória.[getdat]\n");
+                free_nodes(CountryHead);
                 exit(0);
             }
             continue;
@@ -187,6 +190,7 @@ Country* getdat(Country* CountryHead, char filename[32], char opLD[16]){
         for(aux = number; aux != 0; aux--){
                 if((NewWeek = (Week*)calloc(1, sizeof(Week)))==NULL){
                         fprintf(stderr, "-1 Erro de Alocação: não foi possivel alocar o bloco de memória.[getdat]\n");
+                        free_nodes(CountryHead);
                         exit(0);
                 }
                 fread(NewWeek, sizeof(Week), 1, fp);
@@ -202,6 +206,7 @@ Country* getdat(Country* CountryHead, char filename[32], char opLD[16]){
         WeekHead = NULL;
         if((NewCountry = (Country*)calloc(1, sizeof(Country)))==NULL){
             fprintf(stderr, "-1 Erro de Alocação: não foi possivel alocar o bloco de memória.[getdat]\n");
+            free_nodes(CountryHead);
             exit(0);
         }
     }while(fread(NewCountry, sizeof(Country), 1, fp) == 1);// Verifica se já leu todos os países
