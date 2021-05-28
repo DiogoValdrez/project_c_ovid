@@ -98,7 +98,7 @@ Country* getcsv(Country* CountryHead, char filename[32], char opLD[16]){
             if((country[i] < 65 && country[i] != 32 )|| country[i] >122 || (country[i] < 97 && country[i] > 90))
             {
                 free_nodes(CountryHead);
-                fprintf(stderr, "-1 Erro de Leitura: dados na coluna 1 incompativeis");
+                fprintf(stderr, "-1 Erro de Leitura: dados na coluna 1 incompativeis\n");
                 fclose(fp);
                 free(aux2);
                 exit(0);
@@ -112,7 +112,7 @@ Country* getcsv(Country* CountryHead, char filename[32], char opLD[16]){
             if(country_code[i] < 65 || country_code[i] > 90)
             {
                 free_nodes(CountryHead);
-                fprintf(stderr, "-1 Erro de Leitura: dados na coluna 2 incompativeis");
+                fprintf(stderr, "-1 Erro de Leitura: dados na coluna 2 incompativeis\n");
                 fclose(fp);
                 free(aux2);
                 exit(0);
@@ -123,7 +123,7 @@ Country* getcsv(Country* CountryHead, char filename[32], char opLD[16]){
         if (i > 3)
         {
             free_nodes(CountryHead);
-            fprintf(stderr, "-1 Erro de Leitura: dados na coluna 2 incompativeis");
+            fprintf(stderr, "-1 Erro de Leitura: dados na coluna 2 incompativeis\n");
             fclose(fp);
             free(aux2);
             exit(0);
@@ -132,7 +132,7 @@ Country* getcsv(Country* CountryHead, char filename[32], char opLD[16]){
         if (strcmp(continent, "Africa") && strcmp(continent, "Oceania") && strcmp(continent, "Europe") && strcmp(continent, "America") && strcmp(continent, "Asia"))
         {
             free_nodes(CountryHead);
-            fprintf(stderr, "-1 Erro de Leitura: dados na coluna 3 incompativeis");
+            fprintf(stderr, "-1 Erro de Leitura: dados na coluna 3 incompativeis\n");
             fclose(fp);
             free(aux2);
             exit(0);
@@ -144,7 +144,7 @@ Country* getcsv(Country* CountryHead, char filename[32], char opLD[16]){
             if(isdigit(population_char[i]) == 0)
             {
                 free_nodes(CountryHead);
-                fprintf(stderr, "-1 Erro de Leitura: dados na coluna 4 incompativeis");
+                fprintf(stderr, "-1 Erro de Leitura: dados na coluna 4 incompativeis\n");
                 fclose(fp);
                 free(aux2);
                 exit(0);
@@ -155,7 +155,7 @@ Country* getcsv(Country* CountryHead, char filename[32], char opLD[16]){
         if (population < 0)
         {
             free_nodes(CountryHead);
-            fprintf(stderr, "-1 Erro de Leitura: dados na coluna 4 incompativeis");
+            fprintf(stderr, "-1 Erro de Leitura: dados na coluna 4 incompativeis\n");
             fclose(fp);
             free(aux2);
             exit(0);
@@ -164,7 +164,7 @@ Country* getcsv(Country* CountryHead, char filename[32], char opLD[16]){
         if (strcmp(cindicator, "cases") && strcmp(cindicator, "deaths"))
         {
             free_nodes(CountryHead);
-            fprintf(stderr, "-1 Erro de Leitura: dados na coluna 5 incompativeis");
+            fprintf(stderr, "-1 Erro de Leitura: dados na coluna 5 incompativeis\n");
             fclose(fp);
             free(aux2);
             exit(0);
@@ -174,7 +174,7 @@ Country* getcsv(Country* CountryHead, char filename[32], char opLD[16]){
         if (n_week[4] != '-')
         {
             free_nodes(CountryHead);
-            fprintf(stderr, "-1 Erro de Leitura: dados na coluna 7 incompativeis");
+            fprintf(stderr, "-1 Erro de Leitura: dados na coluna 7 incompativeis\n");
             fclose(fp);
             free(aux2);
             exit(0);
@@ -185,7 +185,7 @@ Country* getcsv(Country* CountryHead, char filename[32], char opLD[16]){
             if(isdigit(n_week[i]) == 0 && i != 4)
             {
                 free_nodes(CountryHead);
-                fprintf(stderr, "-1 Erro de Leitura: dados na coluna 7 incompativeis");
+                fprintf(stderr, "-1 Erro de Leitura: dados na coluna 7 incompativeis\n");
                 fclose(fp);
                 free(aux2);
                 exit(0);
@@ -198,7 +198,7 @@ Country* getcsv(Country* CountryHead, char filename[32], char opLD[16]){
         if (n_help > 53)
         {
             free_nodes(CountryHead);
-            fprintf(stderr, "-1 Erro de Leitura: dados na coluna 7 incompativeis");
+            fprintf(stderr, "-1 Erro de Leitura: dados na coluna 7 incompativeis\n");
             fclose(fp);
             free(aux2);
             exit(0);
@@ -210,7 +210,7 @@ Country* getcsv(Country* CountryHead, char filename[32], char opLD[16]){
             if(isdigit(week_value_char[i]) == 0)
             {
                 free_nodes(CountryHead);
-                fprintf(stderr, "-1 Erro de Leitura: dados na coluna 6 incompativeis");
+                fprintf(stderr, "-1 Erro de Leitura: dados na coluna 6 incompativeis\n");
                 fclose(fp);
                 free(aux2);
                 exit(0);
@@ -221,7 +221,7 @@ Country* getcsv(Country* CountryHead, char filename[32], char opLD[16]){
         if (week_values < 0)
         {
             free_nodes(CountryHead);
-            fprintf(stderr, "-1 Erro de Leitura: dados na coluna 6 incompativeis");
+            fprintf(stderr, "-1 Erro de Leitura: dados na coluna 6 incompativeis\n");
             fclose(fp);
             free(aux2);
             exit(0);
@@ -233,7 +233,7 @@ Country* getcsv(Country* CountryHead, char filename[32], char opLD[16]){
             if((total_char[i] < 48 || total_char[i] > 57 ) && total_char[i] != 13 && total_char[i] != 10)
             {
                 free_nodes(CountryHead);
-                fprintf(stderr, "-1 Erro de Leitura: dados na coluna 9 incompativeis:%s", total_char);
+                fprintf(stderr, "-1 Erro de Leitura: dados na coluna 9 incompativeis\n");
                 fclose(fp);
                 free(aux2);
                 exit(0);
@@ -244,7 +244,7 @@ Country* getcsv(Country* CountryHead, char filename[32], char opLD[16]){
         if (total < 0)
         {
             free_nodes(CountryHead);
-            fprintf(stderr, "-1 Erro de Leitura: dados na coluna 9 incompativeis");
+            fprintf(stderr, "-1 Erro de Leitura: dados na coluna 9 incompativeis\n");
             fclose(fp);
             free(aux2);
             exit(0);
@@ -256,7 +256,7 @@ Country* getcsv(Country* CountryHead, char filename[32], char opLD[16]){
             if(isdigit(week_ratio_char[i]) == 0 && week_ratio_char[i] != '.')
             {
                 free_nodes(CountryHead);
-                fprintf(stderr, "-1 Erro de Leitura: dados na coluna 8 incompativeis");
+                fprintf(stderr, "-1 Erro de Leitura: dados na coluna 8 incompativeis\n");
                 fclose(fp);
                 free(aux2);
                 exit(0);
@@ -266,7 +266,7 @@ Country* getcsv(Country* CountryHead, char filename[32], char opLD[16]){
         if (week_ratio < 0)
         {
             free_nodes(CountryHead);
-            fprintf(stderr, "-1 Erro de Leitura: dados na coluna 8 incompativeis");
+            fprintf(stderr, "-1 Erro de Leitura: dados na coluna 8 incompativeis\n");
             fclose(fp);
             free(aux2);
             exit(0);
