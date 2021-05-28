@@ -99,6 +99,7 @@ Country* getcsv(Country* CountryHead, char filename[32], char opLD[16]){
             {
                 free_nodes(CountryHead);
                 fprintf(stderr, "-1 Erro de Leitura: dados na coluna 1 incompativeis");
+                fclose(fp);
                 exit(0);
             }
             i++;
@@ -111,6 +112,7 @@ Country* getcsv(Country* CountryHead, char filename[32], char opLD[16]){
             {
                 free_nodes(CountryHead);
                 fprintf(stderr, "-1 Erro de Leitura: dados na coluna 2 incompativeis");
+                fclose(fp);
                 exit(0);
             }
             i++;
@@ -120,6 +122,7 @@ Country* getcsv(Country* CountryHead, char filename[32], char opLD[16]){
         {
             free_nodes(CountryHead);
             fprintf(stderr, "-1 Erro de Leitura: dados na coluna 2 incompativeis");
+            fclose(fp);
             exit(0);
         }
         //Continente
@@ -127,6 +130,7 @@ Country* getcsv(Country* CountryHead, char filename[32], char opLD[16]){
         {
             free_nodes(CountryHead);
             fprintf(stderr, "-1 Erro de Leitura: dados na coluna 3 incompativeis");
+            fclose(fp);
             exit(0);
         }
         //Population
@@ -137,6 +141,7 @@ Country* getcsv(Country* CountryHead, char filename[32], char opLD[16]){
             {
                 free_nodes(CountryHead);
                 fprintf(stderr, "-1 Erro de Leitura: dados na coluna 4 incompativeis");
+                fclose(fp);
                 exit(0);
             }
             i++;
@@ -146,6 +151,7 @@ Country* getcsv(Country* CountryHead, char filename[32], char opLD[16]){
         {
             free_nodes(CountryHead);
             fprintf(stderr, "-1 Erro de Leitura: dados na coluna 4 incompativeis");
+            fclose(fp);
             exit(0);
         }
         //Indicator
@@ -153,6 +159,7 @@ Country* getcsv(Country* CountryHead, char filename[32], char opLD[16]){
         {
             free_nodes(CountryHead);
             fprintf(stderr, "-1 Erro de Leitura: dados na coluna 5 incompativeis");
+            fclose(fp);
             exit(0);
         }
 
@@ -161,6 +168,7 @@ Country* getcsv(Country* CountryHead, char filename[32], char opLD[16]){
         {
             free_nodes(CountryHead);
             fprintf(stderr, "-1 Erro de Leitura: dados na coluna 7 incompativeis");
+            fclose(fp);
             exit(0);
         }
         i = 0;
@@ -170,6 +178,7 @@ Country* getcsv(Country* CountryHead, char filename[32], char opLD[16]){
             {
                 free_nodes(CountryHead);
                 fprintf(stderr, "-1 Erro de Leitura: dados na coluna 7 incompativeis");
+                fclose(fp);
                 exit(0);
             }
             i++;
@@ -181,6 +190,7 @@ Country* getcsv(Country* CountryHead, char filename[32], char opLD[16]){
         {
             free_nodes(CountryHead);
             fprintf(stderr, "-1 Erro de Leitura: dados na coluna 7 incompativeis");
+            fclose(fp);
             exit(0);
         }
         //Week_values
@@ -191,6 +201,7 @@ Country* getcsv(Country* CountryHead, char filename[32], char opLD[16]){
             {
                 free_nodes(CountryHead);
                 fprintf(stderr, "-1 Erro de Leitura: dados na coluna 6 incompativeis");
+                fclose(fp);
                 exit(0);
             }
             i++;
@@ -200,6 +211,7 @@ Country* getcsv(Country* CountryHead, char filename[32], char opLD[16]){
         {
             free_nodes(CountryHead);
             fprintf(stderr, "-1 Erro de Leitura: dados na coluna 6 incompativeis");
+            fclose(fp);
             exit(0);
         }
         //Total
@@ -210,6 +222,7 @@ Country* getcsv(Country* CountryHead, char filename[32], char opLD[16]){
             {
                 free_nodes(CountryHead);
                 fprintf(stderr, "-1 Erro de Leitura: dados na coluna 9 incompativeis:%s", total_char);
+                fclose(fp);
                 exit(0);
             }
             i++;
@@ -219,6 +232,7 @@ Country* getcsv(Country* CountryHead, char filename[32], char opLD[16]){
         {
             free_nodes(CountryHead);
             fprintf(stderr, "-1 Erro de Leitura: dados na coluna 9 incompativeis");
+            fclose(fp);
             exit(0);
         }
         //week_ratio
@@ -229,6 +243,7 @@ Country* getcsv(Country* CountryHead, char filename[32], char opLD[16]){
             {
                 free_nodes(CountryHead);
                 fprintf(stderr, "-1 Erro de Leitura: dados na coluna 8 incompativeis");
+                fclose(fp);
                 exit(0);
             }
             i++;
@@ -237,14 +252,14 @@ Country* getcsv(Country* CountryHead, char filename[32], char opLD[16]){
         {
             free_nodes(CountryHead);
             fprintf(stderr, "-1 Erro de Leitura: dados na coluna 8 incompativeis");
+            fclose(fp);
             exit(0);
         }
 
 
 
-
-        CountryHead = create_node(CountryHead, country, country_code, continent, population, n_week, week_values, week_ratio, total, cindicator);
         free(aux2);
+        CountryHead = create_node(CountryHead, country, country_code, continent, population, n_week, week_values, week_ratio, total, cindicator, fp);
     }
     fclose(fp);
     return CountryHead;
@@ -326,6 +341,7 @@ Country* getdat(Country* CountryHead, char filename[32], char opLD[16]){
                 if((NewWeek = (Week*)calloc(1, sizeof(Week)))==NULL){
                         fprintf(stderr, "-1 Erro de Alocação: não foi possivel alocar o bloco de memória.[getdat]\n");
                         free_nodes(CountryHead);
+                        fclose(fp);
                         exit(0);
                 }
                 fread(NewWeek, sizeof(Week), 1, fp);
@@ -342,6 +358,7 @@ Country* getdat(Country* CountryHead, char filename[32], char opLD[16]){
             if((NewCountry = (Country*)calloc(1, sizeof(Country)))==NULL){
                 fprintf(stderr, "-1 Erro de Alocação: não foi possivel alocar o bloco de memória.[getdat]\n");
                 free_nodes(CountryHead);
+                fclose(fp);
                 exit(0);
             }
             continue;
@@ -353,6 +370,7 @@ Country* getdat(Country* CountryHead, char filename[32], char opLD[16]){
                 if((NewWeek = (Week*)calloc(1, sizeof(Week)))==NULL){
                         fprintf(stderr, "-1 Erro de Alocação: não foi possivel alocar o bloco de memória.[getdat]\n");
                         free_nodes(CountryHead);
+                        fclose(fp);
                         exit(0);
                 }
                 fread(NewWeek, sizeof(Week), 1, fp);
@@ -369,6 +387,7 @@ Country* getdat(Country* CountryHead, char filename[32], char opLD[16]){
         if((NewCountry = (Country*)calloc(1, sizeof(Country)))==NULL){
             fprintf(stderr, "-1 Erro de Alocação: não foi possivel alocar o bloco de memória.[getdat]\n");
             free_nodes(CountryHead);
+            fclose(fp);
             exit(0);
         }
     }while(fread(NewCountry, sizeof(Country), 1, fp) == 1);// Verifica se já leu todos os países

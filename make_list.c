@@ -15,12 +15,12 @@
  * \return Country* - Apontador para o primeiro país da lista
  *
  */
-Country *create_node(Country *CountryHead, char country[64], char country_code[4], char continent[16], unsigned long int population, char n_week[8],int week_values,float week_ratio,int total, char cindicator[7])
+Country *create_node(Country *CountryHead, char country[64], char country_code[4], char continent[16], unsigned long int population, char n_week[8],int week_values,float week_ratio,int total, char cindicator[7], FILE *fp)
 {
     Week *NewWeek = NULL;
     Country *Country = NULL;
-    Country = create_country(CountryHead, country, country_code, continent, population);
-    NewWeek = create_week(CountryHead, Country, n_week, week_values, week_ratio, total, cindicator);
+    Country = create_country(CountryHead, country, country_code, continent, population, fp);
+    NewWeek = create_week(CountryHead, Country, n_week, week_values, week_ratio, total, cindicator, fp);
     Country->week_head = add_WEL(Country, NewWeek);
     CountryHead = add_CEL(CountryHead, Country);
     return CountryHead;
@@ -37,7 +37,7 @@ Country *create_node(Country *CountryHead, char country[64], char country_code[4
  * \return Week* - Apontador para a primeira semana desta lista
  *
  */
-Week *create_week(Country *CountryHead, Country *Country,char n_week[8],int week_values,float week_ratio,int total,char cindicator[7]){
+Week *create_week(Country *CountryHead, Country *Country,char n_week[8],int week_values,float week_ratio,int total,char cindicator[7], FILE *fp){
     Week *NewWeek = NULL;
     int ind_aux;
 
@@ -49,6 +49,7 @@ Week *create_week(Country *CountryHead, Country *Country,char n_week[8],int week
     }else{
         fprintf(stderr, "-1 Erro de Leitura: Indicador com valor inválido\n");
         free_nodes(CountryHead);
+        fclose(fp);
         exit(0);
     }
     NewWeek = look_for_week(Country, n_week);
@@ -56,6 +57,7 @@ Week *create_week(Country *CountryHead, Country *Country,char n_week[8],int week
         if(NewWeek->indicator == ind_aux || NewWeek->indicator == 3){
             fprintf(stderr, "-1 Erro de Leitura: A semana pedida tem dados repetidos\n");
             free_nodes(CountryHead);
+            fclose(fp);
             exit(0);
         }
         // Verifica o indicador
@@ -74,6 +76,7 @@ Week *create_week(Country *CountryHead, Country *Country,char n_week[8],int week
     if((NewWeek = (Week*)calloc(1, sizeof(Week)))==NULL){
         fprintf(stderr, "-1 Erro de Alocação: Não foi possivel alocar o bloco de memória.[create_week]\n");
         free_nodes(CountryHead);
+        fclose(fp);
         exit(0);
     }
     NewWeek->indicator = ind_aux;
@@ -100,7 +103,7 @@ Week *create_week(Country *CountryHead, Country *Country,char n_week[8],int week
  * \return Country* - Apontador para o primeiro país da lista
  *
  */
-Country *create_country(Country *CountryHead, char country[64], char country_code[4], char continent[16], unsigned long int population)
+Country *create_country(Country *CountryHead, char country[64], char country_code[4], char continent[16], unsigned long int population, FILE *fp)
 {
     Country *NewCountry = NULL;
     //Procura pelo país, para ver se ele já existe
@@ -110,6 +113,7 @@ Country *create_country(Country *CountryHead, char country[64], char country_cod
     if((NewCountry = (Country*)calloc(1, sizeof(Country)))==NULL){
         fprintf(stderr, "-1 Erro de Alocação: Não foi possivel alocar o bloco de memória.[create_country]\n");
         free_nodes(CountryHead);
+        fclose(fp);
         exit(0);
     }
     strcpy(NewCountry->country, country);
